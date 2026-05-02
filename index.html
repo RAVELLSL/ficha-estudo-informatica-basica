@@ -1,0 +1,2039 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ficha de Estudo — Informática Básica</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=Source+Sans+3:wght@400;600;700&display=swap");
+
+    :root {
+      --bg: #f5efe3;
+      --surface: #fffdf8;
+      --surface-soft: #fff8ef;
+      --ink: #231a13;
+      --muted: #6f6052;
+      --line: #e7d8c5;
+      --accent: #8f4d1f;
+      --accent-2: #0f645b;
+      --blue-soft: #eef4ff;
+      --green-soft: #e9f6ef;
+      --amber-soft: #fff2db;
+      --red-soft: #fff1ee;
+      --shadow: 0 14px 34px rgba(44, 29, 16, 0.12);
+      --radius: 16px;
+      --topbar-h: 70px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "Source Sans 3", "Segoe UI", sans-serif;
+      line-height: 1.62;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(143, 77, 31, 0.12), transparent 28%),
+        radial-gradient(circle at 100% 0%, rgba(15, 100, 91, 0.1), transparent 24%),
+        var(--bg);
+      overflow: hidden;
+    }
+
+    .topbar {
+      height: var(--topbar-h);
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: rgba(255, 253, 248, 0.94);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .topbar-inner {
+      max-width: 1360px;
+      height: 100%;
+      margin: 0 auto;
+      padding: 0 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .brand {
+      font-family: "Merriweather", Georgia, serif;
+      font-weight: 900;
+      color: var(--accent);
+      letter-spacing: 0.01em;
+      font-size: 1.04rem;
+      white-space: nowrap;
+    }
+
+    .nav {
+      display: none;
+      gap: 8px;
+      overflow-x: auto;
+    }
+
+    .nav a {
+      text-decoration: none;
+      color: #2f3a44;
+      background: var(--surface-soft);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 7px 11px;
+      font-size: 0.84rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .book-app {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 14px 18px 18px;
+      height: calc(100dvh - var(--topbar-h));
+      display: grid;
+      grid-template-columns: 300px minmax(0, 1fr);
+      gap: 16px;
+    }
+
+    .sidebar {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 14px;
+      overflow: auto;
+    }
+
+    .sidebar h2 {
+      font-family: "Merriweather", serif;
+      font-size: 1.02rem;
+      margin: 0 0 8px;
+      color: #302116;
+    }
+
+    .sidebar p {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .sidebar-nav {
+      display: grid;
+      gap: 8px;
+    }
+
+    .sidebar-nav a {
+      text-decoration: none;
+      color: #2f2a24;
+      border: 1px solid var(--line);
+      background: var(--surface-soft);
+      border-radius: 12px;
+      padding: 9px 11px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      transition: 0.2s ease;
+    }
+
+    .sidebar-nav a:hover,
+    .sidebar-nav a.active {
+      border-color: rgba(143, 77, 31, 0.35);
+      color: var(--accent);
+      transform: translateX(2px);
+      background: #fff;
+    }
+
+    .viewer {
+      min-width: 0;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      gap: 12px;
+    }
+
+    .viewer-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      background: linear-gradient(110deg, #2c1d12, #4a2f1b);
+      color: #f9ebd4;
+      border: 1px solid rgba(255, 238, 210, 0.24);
+      border-radius: 999px;
+      padding: 8px 10px;
+      box-shadow: 0 10px 22px rgba(31, 19, 10, 0.28);
+    }
+
+    .viewer-status {
+      font-weight: 600;
+      font-size: 0.92rem;
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+    }
+
+    .viewer-preference {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: #f9ebd4;
+      font-size: 0.82rem;
+      white-space: nowrap;
+    }
+
+    .viewer-preference select {
+      appearance: none;
+      border: 1px solid rgba(255, 238, 210, 0.36);
+      background: rgba(255, 255, 255, 0.1);
+      color: #f9ebd4;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font: inherit;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .viewer-preference select option {
+      color: #261a12;
+      background: #fffaf2;
+    }
+
+    .viewer-toolbar button {
+      appearance: none;
+      border: 1px solid rgba(255, 238, 210, 0.36);
+      background: rgba(255, 255, 255, 0.08);
+      color: #f9ebd4;
+      border-radius: 999px;
+      padding: 8px 12px;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .viewer-toolbar button:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .viewer-stage {
+      position: relative;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: rgba(255, 252, 246, 0.6);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .book {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .page {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 0;
+      overflow: hidden;
+      transition: opacity 0.28s ease;
+    }
+
+    .page.active {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .page-content {
+      width: 100%;
+      padding: clamp(18px, 2.2vw, 34px);
+      transform-origin: top left;
+      will-change: transform;
+    }
+
+    .viewer-stage.mode-reading .page.active {
+      overflow: auto;
+    }
+
+    .viewer-stage.mode-reading .page.active::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    .viewer-stage.mode-reading .page.active::-webkit-scrollbar-thumb {
+      background: rgba(143, 77, 31, 0.42);
+      border-radius: 999px;
+      border: 2px solid rgba(255, 251, 242, 0.85);
+    }
+
+    .viewer-stage.mode-reading .page.active::-webkit-scrollbar-track {
+      background: rgba(242, 229, 210, 0.55);
+      border-radius: 999px;
+    }
+
+    .viewer-stage.mode-fit .page.active {
+      overflow: hidden;
+    }
+
+    .page-content.tight-mode {
+      font-size: 0.94em;
+    }
+
+    .page-content.tight-mode h2 {
+      margin-bottom: 8px;
+      padding-bottom: 6px;
+    }
+
+    .page-content.tight-mode h3 {
+      margin-top: 12px;
+    }
+
+    .page-content.tight-mode p,
+    .page-content.tight-mode li {
+      margin-bottom: 6px;
+    }
+
+    .page-content.tight-mode .objective,
+    .page-content.tight-mode .mini-card,
+    .page-content.tight-mode .part,
+    .page-content.tight-mode .term,
+    .page-content.tight-mode .step,
+    .page-content.tight-mode .exercise,
+    .page-content.tight-mode .media,
+    .page-content.tight-mode .note,
+    .page-content.tight-mode .analogy,
+    .page-content.tight-mode .warning,
+    .page-content.tight-mode .practice,
+    .page-content.tight-mode .summary-box {
+      padding: 9px;
+    }
+
+    .scale-note {
+      position: absolute;
+      right: 12px;
+      bottom: 10px;
+      background: rgba(35, 26, 19, 0.72);
+      color: #fff;
+      border-radius: 999px;
+      padding: 4px 8px;
+      font-size: 0.74rem;
+      z-index: 20;
+      display: none;
+    }
+
+    .viewer-stage.is-scaled .scale-note {
+      display: inline-flex;
+    }
+
+    .cover {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 20px;
+      align-items: start;
+      background:
+        radial-gradient(circle at 86% 14%, rgba(15, 100, 91, 0.08), transparent 30%),
+        radial-gradient(circle at 20% 0%, rgba(143, 77, 31, 0.09), transparent 30%),
+        var(--surface);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(143, 77, 31, 0.24);
+      background: var(--surface-soft);
+      color: var(--accent);
+      font-size: 0.84rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: "Merriweather", Georgia, serif;
+      margin: 0 0 10px;
+      line-height: 1.18;
+      color: #2a1f15;
+      text-wrap: balance;
+    }
+
+    h1 {
+      font-size: clamp(1.8rem, 4.6vw, 2.9rem);
+    }
+
+    h2 {
+      font-size: clamp(1.26rem, 2.4vw, 1.8rem);
+      border-bottom: 2px solid var(--line);
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+    }
+
+    h3 {
+      font-size: clamp(1.05rem, 1.9vw, 1.3rem);
+      margin-top: 16px;
+    }
+
+    h4 {
+      font-size: 1rem;
+    }
+
+    p {
+      margin: 0 0 10px;
+      color: #312920;
+    }
+
+    .lead {
+      font-size: 1.06rem;
+      color: #44382d;
+      max-width: 760px;
+    }
+
+    figure {
+      margin: 0;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    .cover-card,
+    .media,
+    .image-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 10px;
+    }
+
+    .image-card img,
+    .cover-card img,
+    .media img {
+      width: 100%;
+      border-radius: 10px;
+      background: #f8fbff;
+      border: 1px solid #e6eaf2;
+      padding: 8px;
+      max-height: 300px;
+      object-fit: contain;
+    }
+
+    figcaption {
+      color: var(--muted);
+      font-size: 0.81rem;
+      margin-top: 6px;
+    }
+
+    figcaption a,
+    .credits a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 14px;
+    }
+
+    .pill {
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: var(--surface-soft);
+      color: #3e3328;
+      font-weight: 600;
+      font-size: 0.82rem;
+      padding: 4px 8px;
+    }
+
+    .two-col,
+    .three-col,
+    .four-col,
+    .toc,
+    .objectives,
+    .media-grid,
+    .part-list,
+    .terms,
+    .steps {
+      display: grid;
+      gap: 10px;
+    }
+
+    .two-col {
+      grid-template-columns: minmax(0, 1fr) minmax(230px, 0.75fr);
+      align-items: start;
+    }
+
+    .three-col {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .four-col {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .toc {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      counter-reset: toc;
+    }
+
+    .toc a {
+      counter-increment: toc;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 12px;
+      padding: 10px;
+    }
+
+    .toc a::before {
+      content: counter(toc, decimal-leading-zero);
+      width: 30px;
+      height: 30px;
+      border-radius: 9px;
+      background: var(--accent);
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.74rem;
+      font-weight: 700;
+      flex: 0 0 auto;
+    }
+
+    .toc strong {
+      display: block;
+    }
+
+    .toc span {
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .objectives {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .media-grid,
+    .part-list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .terms {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .objective,
+    .mini-card,
+    .part,
+    .term,
+    .step,
+    .exercise,
+    .media {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 12px;
+      padding: 11px;
+    }
+
+    .objective .icon,
+    .mini-card .icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--blue-soft);
+      color: var(--accent);
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .part strong,
+    .term strong {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .note,
+    .analogy,
+    .warning,
+    .practice {
+      border-radius: 12px;
+      padding: 11px 13px;
+      margin: 12px 0;
+      border: 1px solid;
+    }
+
+    .note {
+      background: var(--blue-soft);
+      border-color: #ced9ee;
+    }
+
+    .analogy {
+      background: var(--green-soft);
+      border-color: #cce5d7;
+    }
+
+    .warning {
+      background: var(--amber-soft);
+      border-color: #efd4ab;
+    }
+
+    .practice {
+      background: var(--red-soft);
+      border-color: #edc8bf;
+    }
+
+    .label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      font-weight: 700;
+      color: #4f4337;
+    }
+
+    ul,
+    ol {
+      margin: 0 0 10px;
+      padding-left: 1.15rem;
+    }
+
+    li {
+      margin-bottom: 5px;
+    }
+
+    .table-wrap {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+      margin: 12px 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 0;
+      font-size: 0.92rem;
+    }
+
+    th,
+    td {
+      text-align: left;
+      padding: 8px 9px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+
+    th {
+      background: #f9f3ea;
+      color: #3f3327;
+      font-size: 0.83rem;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .checklist {
+      list-style: none;
+      padding: 0;
+    }
+
+    .checklist li {
+      position: relative;
+      padding-left: 26px;
+      margin-bottom: 8px;
+    }
+
+    .checklist li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 18px;
+      height: 18px;
+      border-radius: 6px;
+      background: var(--green-soft);
+      color: var(--accent-2);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .steps {
+      counter-reset: step;
+    }
+
+    .step {
+      position: relative;
+      counter-increment: step;
+      padding-left: 46px;
+      min-height: 52px;
+    }
+
+    .step::before {
+      content: counter(step);
+      position: absolute;
+      left: 10px;
+      top: 10px;
+      width: 24px;
+      height: 24px;
+      border-radius: 8px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .summary-box {
+      background: linear-gradient(130deg, #2a1b10, #3f2614);
+      color: #f2e8d9;
+      border-radius: 13px;
+      padding: 14px;
+      margin-top: 12px;
+    }
+
+    .summary-box h3 {
+      color: #fff;
+    }
+
+    .credits {
+      color: #4d4338;
+      font-size: 0.89rem;
+    }
+
+    .footer-note {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.84rem;
+      margin-top: 14px;
+    }
+
+
+
+    .page.cover > .page-content {
+      min-height: 100%;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .page:not(.cover) > .page-content {
+      padding: clamp(28px, 3.2vw, 54px);
+    }
+
+    .cover-card {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px;
+    }
+
+    .cover-card svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+      border-radius: 10px;
+      background: #f8fbff;
+      border: 1px solid #e6eaf2;
+      padding: 6px;
+      max-width: 560px;
+      max-height: 285px;
+      object-fit: contain;
+    }
+
+    .component-visual {
+      margin-top: 14px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 10px;
+    }
+
+    .component-visual svg {
+      width: 100%;
+      max-width: 560px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+      border-radius: 10px;
+      background: #f8fbff;
+      border: 1px solid #e6eaf2;
+      padding: 8px;
+    }
+
+    .component-visual figcaption {
+      display: none;
+    }
+
+    .hardware-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .hardware-item {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fff;
+      padding: 12px;
+      box-shadow: 0 8px 18px rgba(44, 29, 16, 0.08);
+    }
+
+    .hardware-item h3 {
+      margin-top: 0;
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+
+    .hardware-item p {
+      margin-bottom: 0;
+      font-size: 0.94rem;
+    }
+
+    .hardware-item .component-visual {
+      margin-top: 0;
+      margin-bottom: 10px;
+      padding: 8px;
+    }
+
+    .hardware-item .component-visual svg {
+      max-width: none;
+    }
+
+
+
+    /* Ajuste final da capa: imagem maior, centralizada e proporcional */
+    .page.cover {
+      padding: clamp(28px, 3.4vw, 52px);
+      grid-template-columns: minmax(300px, 0.82fr) minmax(420px, 1.18fr);
+      align-items: center;
+      gap: clamp(28px, 4vw, 58px);
+    }
+
+    .page.cover > div {
+      max-width: 520px;
+    }
+
+    .page.cover .cover-card {
+      width: 100%;
+      min-height: clamp(300px, 46vh, 430px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(18px, 2.2vw, 28px);
+      align-self: center;
+      justify-self: stretch;
+    }
+
+    .page.cover .cover-card svg {
+      width: 100%;
+      max-width: 640px;
+      max-height: 380px;
+      height: auto;
+      object-fit: contain;
+      padding: 0;
+      background: transparent;
+      border: 0;
+    }
+
+    @media (max-width: 1080px) {
+      .page.cover {
+        grid-template-columns: 1fr;
+      }
+
+      .page.cover .cover-card {
+        min-height: auto;
+      }
+    }
+
+    @media (max-width: 1080px) {
+      .page.cover > .page-content {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 1080px) {
+      body {
+        overflow: auto;
+      }
+
+      .nav {
+        display: flex;
+      }
+
+      .book-app {
+        height: auto;
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        display: none;
+      }
+
+      .viewer-stage {
+        min-height: 75vh;
+      }
+
+      .two-col,
+      .three-col,
+      .four-col,
+      .toc,
+      .objectives,
+      .media-grid,
+      .part-list,
+      .terms {
+        grid-template-columns: 1fr;
+      }
+
+      .page {
+        position: relative;
+        inset: auto;
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+      }
+
+      .page-content {
+        transform: none !important;
+        width: auto !important;
+      }
+
+      .viewer-toolbar {
+        display: none;
+      }
+
+      .viewer-preference {
+        display: none;
+      }
+
+      .scale-note {
+        display: none !important;
+      }
+    }
+
+    @media print {
+      body {
+        overflow: visible;
+        background: #fff;
+      }
+
+      .topbar,
+      .sidebar,
+      .viewer-toolbar,
+      .scale-note {
+        display: none;
+      }
+
+      .book-app,
+      .viewer,
+      .viewer-stage,
+      .book {
+        display: block;
+        height: auto;
+        overflow: visible;
+        box-shadow: none;
+        border: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .page {
+        position: static;
+        opacity: 1;
+        visibility: visible;
+        border: none;
+        box-shadow: none;
+        page-break-after: always;
+      }
+
+      .page-content {
+        transform: none !important;
+        width: auto !important;
+        padding: 20px;
+      }
+    }
+  
+    /* Correção estável da capa após a criação dinâmica de .page-content pelo script */
+    .page.cover {
+      display: block;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .page.cover > .page-content {
+      min-height: 100%;
+      width: 100%;
+      max-width: none;
+      display: grid;
+      grid-template-columns: minmax(300px, 0.86fr) minmax(420px, 1.14fr);
+      align-items: center;
+      gap: clamp(24px, 4vw, 56px);
+      padding: clamp(30px, 3.6vw, 58px);
+    }
+
+    .page.cover > .page-content > div:first-child {
+      max-width: 520px;
+    }
+
+    .page.cover .cover-card {
+      width: 100%;
+      max-width: 680px;
+      min-height: 0;
+      aspect-ratio: 16 / 10;
+      align-self: center;
+      justify-self: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(12px, 1.6vw, 20px);
+      overflow: hidden;
+    }
+
+    .page.cover .cover-card svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      max-width: none;
+      max-height: none;
+      min-width: 0;
+      object-fit: contain;
+      opacity: 1;
+      visibility: visible;
+    }
+
+    @media (max-width: 1080px) {
+      .page.cover > .page-content {
+        grid-template-columns: 1fr;
+        gap: 18px;
+        padding: 20px;
+      }
+
+      .page.cover .cover-card {
+        order: -1;
+        max-width: 100%;
+        aspect-ratio: auto;
+        min-height: 0;
+        max-height: min(42vh, 320px);
+        padding: 10px;
+      }
+
+      .page.cover .cover-card svg {
+        width: 100%;
+        height: 100%;
+      }
+
+      .page.cover > .page-content > div:first-child {
+        max-width: none;
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">Ficha de Estudo — Informática Básica</div>
+      <nav class="nav" aria-label="Navegação da ficha">
+        <a href="#sumario">Sumário</a>
+        <a href="#cap1">Tema central</a>
+        <a href="#cap3">O que é informática</a>
+        <a href="#cap6">O que é um computador</a>
+        <a href="#cap9">Hardware e software</a>
+        <a href="#cap13">Partes externas do computador</a>
+        <a href="#cap20">Partes internas do computador</a>
+        <a href="#cap27">Conexões e portas do computador</a>
+        <a href="#cap33">Uso básico do computador</a>
+        <a href="#cap38">Cuidados físicos com o computador</a>
+        <a href="#cap44">Atividade prática de observação</a>
+        <a href="#cap51">Glossário básico</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="book-app">
+    <aside class="sidebar" aria-label="Sumário lateral">
+      <h2>Sumário</h2>
+      <p>Selecione um tópico da ficha para exibir no painel de leitura.</p>
+      <nav class="sidebar-nav" id="sidebarNav">
+        <a href="#capa">Capa</a>
+        <a href="#sumario">Sumário</a>
+        <a href="#cap1">1. Tema central</a>
+        <a href="#cap2">2. Objetivo da ficha de estudo</a>
+        <a href="#cap3">3. O que é informática</a>
+        <a href="#cap4">4. Informática no cotidiano</a>
+        <a href="#cap5">5. Analogia para compreender informática</a>
+        <a href="#cap6">6. O que é um computador</a>
+        <a href="#cap7">7. As quatro ações fundamentais do computador</a>
+        <a href="#cap8">8. Exemplo prático das quatro etapas</a>
+        <a href="#cap9">9. Hardware e software</a>
+        <a href="#cap10">10. Analogia entre hardware e software</a>
+        <a href="#cap11">11. Exemplos de hardware</a>
+        <a href="#cap12">12. Exemplos de software</a>
+        <a href="#cap13">13. Partes externas do computador</a>
+        <a href="#cap14">14. Monitor</a>
+        <a href="#cap15">15. Teclado</a>
+        <a href="#cap16">16. Mouse</a>
+        <a href="#cap17">17. Gabinete</a>
+        <a href="#cap18">18. Impressora</a>
+        <a href="#cap19">19. Caixas de som, fones, microfone e webcam</a>
+        <a href="#cap20">20. Partes internas do computador</a>
+        <a href="#cap21">21. Placa-mãe</a>
+        <a href="#cap22">22. Processador ou CPU</a>
+        <a href="#cap23">23. Memória RAM</a>
+        <a href="#cap24">24. HD e SSD</a>
+        <a href="#cap25">25. Fonte de alimentação</a>
+        <a href="#cap26">26. Placa de vídeo</a>
+        <a href="#cap27">27. Conexões e portas do computador</a>
+        <a href="#cap28">28. Porta USB</a>
+        <a href="#cap29">29. Porta HDMI</a>
+        <a href="#cap30">30. Entrada de áudio</a>
+        <a href="#cap31">31. Porta de rede ou Ethernet</a>
+        <a href="#cap32">32. Entrada de energia</a>
+        <a href="#cap33">33. Uso básico do computador</a>
+        <a href="#cap34">34. Como ligar o computador</a>
+        <a href="#cap35">35. Como desligar corretamente</a>
+        <a href="#cap36">36. Arquivos, pastas e programas</a>
+        <a href="#cap37">37. Organização de arquivos</a>
+        <a href="#cap38">38. Cuidados físicos com o computador</a>
+        <a href="#cap39">39. Cuidados digitais</a>
+        <a href="#cap40">40. Senhas</a>
+        <a href="#cap41">41. Golpes digitais</a>
+        <a href="#cap42">42. Backup</a>
+        <a href="#cap43">43. Atualizações</a>
+        <a href="#cap44">44. Atividade prática de observação</a>
+        <a href="#cap45">45. Atividade prática com arquivos e pastas</a>
+        <a href="#cap46">46. Atividade de classificação: hardware ou software</a>
+        <a href="#cap47">47. Atividade de reflexão</a>
+        <a href="#cap48">48. Checklist de aprendizagem</a>
+        <a href="#cap49">49. Questões para revisão</a>
+        <a href="#cap50">50. Resumo para memorização</a>
+        <a href="#cap51">51. Glossário básico</a>
+        <a href="#cap52">52. Conclusão da ficha</a>
+      </nav>
+    </aside>
+
+    <section class="viewer" aria-label="Área de exibição da apostila">
+      <div class="viewer-toolbar">
+        <button id="prevPage" type="button">◀ Anterior</button>
+        <div class="viewer-status" id="viewerStatus">Tópico 1 de 1</div>
+        <label class="viewer-preference" for="scalePreference">
+          Exibição:
+          <select id="scalePreference">
+            <option value="reading" selected>Modo leitura</option>
+            <option value="fit">Modo reduzido</option>
+          </select>
+        </label>
+        <button id="nextPage" type="button">Próximo ▶</button>
+      </div>
+
+      <div class="viewer-stage" id="viewerStage">
+        <div class="scale-note" id="scaleNote">Ajuste automático para caber na tela</div>
+        <div class="book" id="bookPages">
+    <section class="page cover active" id="capa">
+      <div>
+        <span class="eyebrow">Ficha de estudo • revisão ampla</span>
+        <h1>Informática Básica</h1>
+        <p class="lead">Material de revisão para compreender computadores, hardware, software, periféricos, arquivos, segurança digital, backup e uso básico do equipamento.</p>
+        <div class="meta">
+          <span class="pill">Nível: iniciante</span>
+          <span class="pill">Formato: ficha de estudo</span>
+          <span class="pill">Com revisão e atividades</span>
+        </div>
+      </div>
+      <figure class="cover-card">
+        <svg viewBox="0 0 760 460" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração didática de informática básica com computador, arquivos, nuvem e segurança digital">
+  <defs>
+    <linearGradient id="ibg" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#fff8ef"/><stop offset="1" stop-color="#e9f6ef"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="12" stdDeviation="12" flood-color="#2c1d12" flood-opacity=".16"/></filter>
+  </defs>
+  <rect width="760" height="460" rx="22" fill="url(#ibg)"/>
+  <g filter="url(#shadow)">
+    <rect x="130" y="70" width="500" height="280" rx="22" fill="#ffffff" stroke="#e7d8c5" stroke-width="3"/>
+    <rect x="160" y="104" width="440" height="190" rx="12" fill="#eef4ff" stroke="#d7e1f4"/>
+    <rect x="214" y="322" width="332" height="22" rx="11" fill="#2a1f15" opacity=".82"/>
+    <rect x="318" y="344" width="124" height="42" rx="10" fill="#8f4d1f" opacity=".9"/>
+    <rect x="282" y="386" width="196" height="18" rx="9" fill="#2a1f15" opacity=".82"/>
+  </g>
+  <g>
+    <rect x="194" y="132" width="126" height="106" rx="14" fill="#fff" stroke="#d7e1f4"/>
+    <rect x="214" y="154" width="86" height="9" rx="5" fill="#9db3d7"/>
+    <rect x="214" y="176" width="64" height="9" rx="5" fill="#9db3d7"/>
+    <rect x="214" y="202" width="44" height="20" rx="10" fill="#e9f6ef"/>
+    <text x="257" y="260" text-anchor="middle" font-size="18" font-weight="700" fill="#8f4d1f">Arquivos</text>
+  </g>
+  <g>
+    <circle cx="384" cy="184" r="58" fill="#fff" stroke="#d7e1f4"/>
+    <path d="M356 189c9-24 47-25 57 0 15-5 28 7 28 22 0 13-11 24-25 24h-62c-15 0-26-10-26-23 0-12 9-21 21-22 2 0 5-1 7-1z" fill="#0f645b" opacity=".82"/>
+    <text x="384" y="260" text-anchor="middle" font-size="18" font-weight="700" fill="#0f645b">Nuvem</text>
+  </g>
+  <g>
+    <rect x="466" y="132" width="114" height="106" rx="18" fill="#fff" stroke="#d7e1f4"/>
+    <circle cx="523" cy="171" r="25" fill="#fff2db" stroke="#efd4ab"/>
+    <path d="M511 172l8 8 18-22" fill="none" stroke="#8f4d1f" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="523" y="260" text-anchor="middle" font-size="18" font-weight="700" fill="#8f4d1f">Segurança</text>
+  </g>
+  <path d="M318 185h42" stroke="#8f4d1f" stroke-width="4" stroke-linecap="round"/>
+  <path d="M438 185h42" stroke="#0f645b" stroke-width="4" stroke-linecap="round"/>
+  <text x="380" y="42" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#2a1f15">Informática Básica</text>
+</svg>
+      </figure>
+    </section>
+
+    <section class="page" id="sumario">
+      <h2>Sumário</h2>
+      <p class="lead">Esta ficha foi organizada em tópicos curtos para consulta, revisão e fixação. A navegação lateral mantém o mesmo funcionamento do layout original.</p>
+      <div class="toc">
+        <a href="#cap1"><span><strong>1. Tema central</strong>fundamentos</span></a><a href="#cap2"><span><strong>2. Objetivo da ficha de estudo</strong>fundamentos</span></a><a href="#cap3"><span><strong>3. O que é informática</strong>fundamentos</span></a><a href="#cap4"><span><strong>4. Informática no cotidiano</strong>fundamentos</span></a><a href="#cap5"><span><strong>5. Analogia para compreender informática</strong>fundamentos</span></a><a href="#cap6"><span><strong>6. O que é um computador</strong>conceitos básicos</span></a><a href="#cap7"><span><strong>7. As quatro ações fundamentais do computador</strong>conceitos básicos</span></a><a href="#cap8"><span><strong>8. Exemplo prático das quatro etapas</strong>conceitos básicos</span></a><a href="#cap9"><span><strong>9. Hardware e software</strong>conceitos básicos</span></a><a href="#cap10"><span><strong>10. Analogia entre hardware e software</strong>conceitos básicos</span></a><a href="#cap11"><span><strong>11. Exemplos de hardware</strong>conceitos básicos</span></a><a href="#cap12"><span><strong>12. Exemplos de software</strong>conceitos básicos</span></a><a href="#cap13"><span><strong>13. Partes externas do computador</strong>partes externas</span></a><a href="#cap14"><span><strong>14. Monitor</strong>partes externas</span></a><a href="#cap15"><span><strong>15. Teclado</strong>partes externas</span></a><a href="#cap16"><span><strong>16. Mouse</strong>partes externas</span></a><a href="#cap17"><span><strong>17. Gabinete</strong>partes externas</span></a><a href="#cap18"><span><strong>18. Impressora</strong>partes externas</span></a><a href="#cap19"><span><strong>19. Caixas de som, fones, microfone e webcam</strong>partes externas</span></a><a href="#cap20"><span><strong>20. Partes internas do computador</strong>partes internas</span></a><a href="#cap21"><span><strong>21. Placa-mãe</strong>partes internas</span></a><a href="#cap22"><span><strong>22. Processador ou CPU</strong>partes internas</span></a><a href="#cap23"><span><strong>23. Memória RAM</strong>partes internas</span></a><a href="#cap24"><span><strong>24. HD e SSD</strong>partes internas</span></a><a href="#cap25"><span><strong>25. Fonte de alimentação</strong>partes internas</span></a><a href="#cap26"><span><strong>26. Placa de vídeo</strong>partes internas</span></a><a href="#cap27"><span><strong>27. Conexões e portas do computador</strong>conexões</span></a><a href="#cap28"><span><strong>28. Porta USB</strong>conexões</span></a><a href="#cap29"><span><strong>29. Porta HDMI</strong>conexões</span></a><a href="#cap30"><span><strong>30. Entrada de áudio</strong>conexões</span></a><a href="#cap31"><span><strong>31. Porta de rede ou Ethernet</strong>conexões</span></a><a href="#cap32"><span><strong>32. Entrada de energia</strong>conexões</span></a><a href="#cap33"><span><strong>33. Uso básico do computador</strong>uso e segurança</span></a><a href="#cap34"><span><strong>34. Como ligar o computador</strong>uso e segurança</span></a><a href="#cap35"><span><strong>35. Como desligar corretamente</strong>uso e segurança</span></a><a href="#cap36"><span><strong>36. Arquivos, pastas e programas</strong>uso e segurança</span></a><a href="#cap37"><span><strong>37. Organização de arquivos</strong>uso e segurança</span></a><a href="#cap38"><span><strong>38. Cuidados físicos com o computador</strong>uso e segurança</span></a><a href="#cap39"><span><strong>39. Cuidados digitais</strong>uso e segurança</span></a><a href="#cap40"><span><strong>40. Senhas</strong>uso e segurança</span></a><a href="#cap41"><span><strong>41. Golpes digitais</strong>uso e segurança</span></a><a href="#cap42"><span><strong>42. Backup</strong>uso e segurança</span></a><a href="#cap43"><span><strong>43. Atualizações</strong>uso e segurança</span></a><a href="#cap44"><span><strong>44. Atividade prática de observação</strong>atividades</span></a><a href="#cap45"><span><strong>45. Atividade prática com arquivos e pastas</strong>atividades</span></a><a href="#cap46"><span><strong>46. Atividade de classificação: hardware ou software</strong>atividades</span></a><a href="#cap47"><span><strong>47. Atividade de reflexão</strong>atividades</span></a><a href="#cap48"><span><strong>48. Checklist de aprendizagem</strong>atividades</span></a><a href="#cap49"><span><strong>49. Questões para revisão</strong>atividades</span></a><a href="#cap50"><span><strong>50. Resumo para memorização</strong>atividades</span></a><a href="#cap51"><span><strong>51. Glossário básico</strong>termos essenciais</span></a><a href="#cap52"><span><strong>52. Conclusão da ficha</strong>fechamento</span></a>
+      </div>
+    </section>
+
+    <section class="page" id="cap1">
+      <span class="label">Ficha 1</span>
+      <h2>1. Tema central</h2>
+      <p class="lead">A informática básica é o estudo inicial do uso de computadores, dispositivos digitais, programas, arquivos, sistemas e recursos tecnológicos presentes no cotidiano. Ela ajuda o aluno a compreender como os computadores funcionam, quais são suas partes principais, como diferenciar hardware e software, como usar o equipamento com segurança e como organizar informações digitais.</p>
+<p>O objetivo da informática básica não é transformar o aluno em técnico de manutenção, programador ou especialista em tecnologia. O objetivo principal é construir uma base de compreensão para que a pessoa iniciante consiga usar o computador com mais autonomia, segurança e confiança.</p>
+<p>A informática está presente em tarefas simples e comuns, como digitar um texto, acessar a internet, enviar uma mensagem, assistir a uma aula online, imprimir um documento, pagar uma conta pelo aplicativo do banco, armazenar fotos, participar de uma reunião por vídeo ou organizar arquivos em pastas.</p>
+      <figure class="component-visual"><svg viewBox="0 0 560 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração do tema central da informática básica"><rect width="560" height="240" rx="18" fill="#fff8ef"/><circle cx="280" cy="118" r="54" fill="#eef4ff" stroke="#b9d2f0" stroke-width="4"/><rect x="242" y="92" width="76" height="48" rx="10" fill="#2d3440"/><rect x="252" y="102" width="56" height="28" rx="6" fill="#dcecff"/><rect x="266" y="142" width="28" height="8" rx="4" fill="#5d6470"/><rect x="252" y="152" width="56" height="8" rx="4" fill="#8f4d1f" opacity=".85"/><rect x="136" y="88" width="68" height="48" rx="12" fill="#ffffff" stroke="#d8e4dc" stroke-width="3"/><rect x="150" y="102" width="40" height="8" rx="4" fill="#8fb3e1"/><rect x="150" y="118" width="28" height="8" rx="4" fill="#8fb3e1"/><circle cx="396" cy="110" r="28" fill="#ffffff" stroke="#d8e4dc" stroke-width="3"/><path d="M382 114c4-10 20-11 24 0 7-2 13 3 13 9 0 7-6 12-12 12h-25c-7 0-12-5-12-11 0-6 5-10 10-10h2z" fill="#0f645b" opacity=".82"/><circle cx="206" cy="172" r="22" fill="#fff2db" stroke="#efd4ab" stroke-width="3"/><path d="M198 173l6 6 12-15" fill="none" stroke="#8f4d1f" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="356" cy="170" r="22" fill="#e9f6ef" stroke="#bfe5cf" stroke-width="3"/><path d="M356 160v10l8 4" fill="none" stroke="#0f645b" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M204 112h28M332 112h36M280 64v-18M280 172v-18" stroke="#c8b49c" stroke-width="4" stroke-linecap="round"/></svg><figcaption>Tema central da informática básica</figcaption></figure>
+    </section>
+
+    <section class="page" id="cap2">
+      <span class="label">Ficha 2</span>
+      <h2>2. Objetivo da ficha de estudo</h2>
+      <p>Esta ficha tem como objetivo revisar, ampliar e organizar os principais conceitos apresentados na apostila de Informática Básica.</p>
+<p>Ao final do estudo, o aluno deverá ser capaz de explicar o que é informática, reconhecer a função de um computador, identificar as etapas de entrada, processamento, armazenamento e saída, diferenciar hardware e software, reconhecer partes externas e internas do computador, compreender a função das portas de conexão, realizar ações básicas de uso, organizar arquivos e adotar cuidados físicos e digitais.</p>
+      <figure class="component-visual"><svg viewBox="0 0 560 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração do objetivo da ficha de estudo"><rect width="560" height="240" rx="18" fill="#eefaf4"/><rect x="110" y="34" width="190" height="170" rx="16" fill="#ffffff" stroke="#cfe2d8" stroke-width="4"/><rect x="142" y="72" width="108" height="10" rx="5" fill="#60a5fa"/><rect x="142" y="96" width="126" height="10" rx="5" fill="#cbd5e1"/><rect x="142" y="120" width="118" height="10" rx="5" fill="#cbd5e1"/><rect x="142" y="144" width="100" height="10" rx="5" fill="#cbd5e1"/><circle cx="140" cy="188" r="10" fill="#34d399"/><path d="M136 188l3 3 6-7" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="182" cy="188" r="10" fill="#34d399"/><path d="M178 188l3 3 6-7" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="224" cy="188" r="10" fill="#34d399"/><path d="M220 188l3 3 6-7" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M300 124h42" stroke="#94a3b8" stroke-width="6" stroke-linecap="round"/><circle cx="386" cy="124" r="48" fill="#fff8ef" stroke="#e7d8c5" stroke-width="4"/><path d="M386 92v34l22 14" fill="none" stroke="#8f4d1f" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="386" cy="124" r="6" fill="#8f4d1f"/></svg><figcaption>Revisar, organizar e acompanhar a aprendizagem</figcaption></figure>
+    </section>
+
+    <section class="page" id="cap3">
+      <span class="label">Ficha 3</span>
+      <h2>3. O que é informática</h2>
+      <p class="lead">Informática é a área que estuda o uso de computadores e sistemas digitais para receber, organizar, processar, armazenar e transmitir informações. A palavra está associada à ideia de “informação automática”, ou seja, ao tratamento de informações com o auxílio de máquinas e programas.</p>
+<p>Sempre que uma pessoa usa um computador, celular, tablet, caixa eletrônico, smart TV, aplicativo de banco, sistema de cadastro, plataforma de aula online ou serviço de mensagem, ela está utilizando recursos de informática.</p>
+<p>A informática permite que informações sejam tratadas com maior rapidez, organização e precisão. Por meio dela, é possível criar documentos, fazer cálculos, guardar arquivos, acessar notícias, enviar e-mails, assistir vídeos, estudar, trabalhar, vender produtos, controlar despesas, editar imagens e se comunicar com outras pessoas.</p>
+      <figure class="component-visual"><svg viewBox="0 0 560 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração sobre o que é informática"><rect width="560" height="240" rx="18" fill="#eefaf4"/><circle cx="280" cy="120" r="62" fill="#ffffff" stroke="#cfe2d8" stroke-width="4"/><circle cx="280" cy="120" r="16" fill="#0f645b"/><circle cx="186" cy="76" r="22" fill="#dcecff"/><rect x="171" y="68" width="30" height="16" rx="4" fill="#2d4f80"/><circle cx="382" cy="76" r="22" fill="#fff2db"/><rect x="370" y="64" width="24" height="24" rx="6" fill="#8f4d1f"/><circle cx="186" cy="168" r="22" fill="#ffe4e6"/><path d="M176 170h20M186 160v20" stroke="#be123c" stroke-width="5" stroke-linecap="round"/><circle cx="382" cy="168" r="22" fill="#ede9fe"/><path d="M372 176l8-16 10 8 8-14" fill="none" stroke="#6d28d9" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M205 84l50 24M355 84l-50 24M205 156l50-24M355 156l-50-24" stroke="#94a3b8" stroke-width="4" stroke-linecap="round"/><rect x="256" y="88" width="48" height="18" rx="6" fill="#d8f3dc"/><rect x="256" y="116" width="48" height="18" rx="6" fill="#dcecff"/><rect x="256" y="144" width="48" height="18" rx="6" fill="#fff2db"/></svg><figcaption>Informática como organização e tratamento da informação</figcaption></figure>
+    </section>
+
+    <section class="page" id="cap4">
+      <span class="label">Ficha 4</span>
+      <h2>4. Informática no cotidiano</h2>
+      <p>A informática aparece em várias áreas da vida.</p>
+<p>Em casa, ela está presente no celular, no notebook, no computador de mesa, na smart TV, no roteador de internet, nos serviços de streaming, nos assistentes virtuais, nas impressoras e nos aplicativos usados para comunicação, compras e pagamentos.</p>
+<p>No trabalho, a informática aparece em planilhas, relatórios, sistemas de cadastro, videoconferências, e-mails, armazenamento de documentos, emissão de notas, controle de estoque, atendimento ao cliente e ferramentas de produtividade.</p>
+<p>Nos estudos, ela aparece em aulas online, pesquisas na internet, plataformas educacionais, livros digitais, apresentações, vídeos, simulados, ambientes virtuais de aprendizagem e produção de trabalhos escolares.</p>
+<p>Em serviços públicos e privados, a informática aparece em bancos, hospitais, escolas, supermercados, repartições públicas, transporte, segurança, comunicação e comércio.</p>
+      <figure class="component-visual"><svg viewBox="0 0 560 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração da informática no cotidiano"><rect width="560" height="240" rx="18" fill="#fff8ef"/><circle cx="120" cy="84" r="34" fill="#eef4ff" stroke="#b9d2f0" stroke-width="3"/><rect x="104" y="66" width="32" height="36" rx="8" fill="#ffffff" stroke="#cfd8e3" stroke-width="3"/><rect x="110" y="74" width="20" height="16" rx="4" fill="#dcecff"/><circle cx="120" cy="96" r="2" fill="#94a3b8"/><circle cx="280" cy="74" r="40" fill="#eefaf4" stroke="#cfe2d8" stroke-width="3"/><rect x="238" y="58" width="84" height="52" rx="10" fill="#2d3440"/><rect x="248" y="68" width="64" height="32" rx="6" fill="#dcecff"/><rect x="266" y="114" width="28" height="8" rx="4" fill="#5d6470"/><circle cx="438" cy="84" r="34" fill="#fff2db" stroke="#efd4ab" stroke-width="3"/><rect x="412" y="64" width="52" height="38" rx="10" fill="#ffffff" stroke="#e7d8c5" stroke-width="3"/><path d="M438 78v10l8 5" fill="none" stroke="#8f4d1f" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="120" cy="174" r="34" fill="#ffe4e6" stroke="#f3a5b1" stroke-width="3"/><rect x="98" y="154" width="44" height="28" rx="8" fill="#ffffff" stroke="#f3c0c8" stroke-width="3"/><path d="M108 168h24" stroke="#be123c" stroke-width="4" stroke-linecap="round"/><circle cx="280" cy="174" r="34" fill="#ede9fe" stroke="#c7b5fd" stroke-width="3"/><path d="M260 186l10-20 10 10 20-30" fill="none" stroke="#6d28d9" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="438" cy="174" r="34" fill="#e9f6ef" stroke="#bfe5cf" stroke-width="3"/><path d="M418 176h40M438 156v40" stroke="#0f645b" stroke-width="5" stroke-linecap="round"/></svg><figcaption>Informática em casa, no trabalho, nos estudos e nos serviços</figcaption></figure>
+    </section>
+
+    <section class="page" id="cap5">
+      <span class="label">Ficha 5</span>
+      <h2>5. Analogia para compreender informática</h2>
+      <p class="lead">A informática pode ser comparada a uma grande mesa de trabalho digital. Nessa mesa, o usuário pode escrever, calcular, desenhar, organizar documentos, guardar arquivos, conversar com outras pessoas, pesquisar informações e resolver problemas.</p>
+<p>A diferença é que, em vez de usar apenas papel, caneta, calculadora, gaveta e telefone, a pessoa usa dispositivos digitais, programas, sistemas e redes de comunicação.</p>
+<p>Essa analogia ajuda a entender que o computador não é apenas uma máquina “complicada”. Ele é uma ferramenta de trabalho, estudo, comunicação e organização.</p>
+      <figure class="component-visual"><svg viewBox="0 0 560 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração da analogia da mesa de trabalho digital"><rect width="560" height="240" rx="18" fill="#fff8ef"/><rect x="78" y="58" width="404" height="126" rx="20" fill="#e7d8c5"/><rect x="96" y="74" width="108" height="72" rx="12" fill="#ffffff" stroke="#d8e4dc" stroke-width="3"/><rect x="112" y="88" width="76" height="10" rx="5" fill="#8fb3e1"/><rect x="112" y="106" width="60" height="10" rx="5" fill="#cbd5e1"/><rect x="112" y="124" width="72" height="10" rx="5" fill="#cbd5e1"/><circle cx="252" cy="110" r="30" fill="#fff2db" stroke="#efd4ab" stroke-width="3"/><path d="M244 118l8-16 8 6 8-12" fill="none" stroke="#8f4d1f" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><rect x="308" y="82" width="66" height="62" rx="10" fill="#dcecff" stroke="#b9d2f0" stroke-width="3"/><circle cx="341" cy="104" r="10" fill="#60a5fa"/><path d="M332 122h18" stroke="#2d4f80" stroke-width="4" stroke-linecap="round"/><rect x="404" y="86" width="52" height="58" rx="12" fill="#e9f6ef" stroke="#bfe5cf" stroke-width="3"/><path d="M418 114c0-10 8-18 18-18s18 8 18 18" fill="none" stroke="#0f645b" stroke-width="5" stroke-linecap="round"/><rect x="418" y="114" width="36" height="20" rx="10" fill="#0f645b" opacity="0.9"/><path d="M150 184v18M408 184v18" stroke="#9c7c5e" stroke-width="10" stroke-linecap="round"/></svg><figcaption>Mesa de trabalho digital como analogia para a informática</figcaption></figure>
+    </section>
+
+    <section class="page" id="cap6">
+      <span class="label">Ficha 6</span>
+      <h2>6. O que é um computador</h2>
+      <p class="lead">O computador é uma máquina eletrônica programável. Isso significa que ele segue instruções dadas por programas para executar tarefas.</p>
+<p>O computador não pensa como uma pessoa. Ele recebe dados, processa instruções, armazena informações e apresenta resultados. Tudo isso acontece por meio da combinação entre peças físicas, programas e comandos dados pelo usuário.</p>
+<p>Existem vários tipos de computadores. O desktop é o computador de mesa. O notebook é o computador portátil. O tablet é um dispositivo móvel com tela sensível ao toque. O smartphone também é um computador de bolso, embora muitas pessoas o chamem apenas de celular.</p>
+      <figure class="component-visual"><svg viewBox="0 0 560 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração de diferentes tipos de computador"><rect width="560" height="240" rx="18" fill="#eef4ff"/><rect x="60" y="74" width="134" height="78" rx="12" fill="#2d3440"/><rect x="72" y="86" width="110" height="54" rx="8" fill="#dcecff"/><rect x="108" y="156" width="36" height="10" rx="5" fill="#5d6470"/><rect x="92" y="166" width="68" height="8" rx="4" fill="#8f4d1f" opacity=".8"/><rect x="220" y="78" width="120" height="70" rx="10" fill="#3b4656"/><rect x="232" y="90" width="96" height="46" rx="6" fill="#dcecff"/><path d="M206 166h148l-18-16h-112z" fill="#9aa4af"/><rect x="382" y="60" width="70" height="102" rx="12" fill="#ffffff" stroke="#d8e4dc" stroke-width="3"/><rect x="392" y="72" width="50" height="76" rx="8" fill="#dcecff"/><circle cx="417" cy="156" r="4" fill="#9aa4af"/><rect x="470" y="84" width="40" height="74" rx="10" fill="#ffffff" stroke="#d8e4dc" stroke-width="3"/><rect x="478" y="96" width="24" height="46" rx="6" fill="#dcecff"/><circle cx="490" cy="148" r="3" fill="#9aa4af"/></svg><figcaption>Desktop, notebook, tablet e smartphone</figcaption></figure>
+    </section>
+
+    <section class="page" id="cap7">
+      <span class="label">Ficha 7</span>
+      <h2>7. As quatro ações fundamentais do computador</h2>
+      <p class="lead">Todo computador trabalha com quatro ações principais: entrada, processamento, armazenamento e saída.</p><div class="table-wrap"><table><thead><tr><th>Etapa</th><th>Explicação</th></tr></thead><tbody><tr><td><strong>Entrada</strong></td><td>Acontece quando o usuário coloca informações no computador. Isso pode ocorrer ao digitar no teclado, clicar com o mouse, tocar na tela, falar no microfone, escanear um documento ou conectar um pendrive.</td></tr><tr><td><strong>Saída</strong></td><td>Acontece quando o computador apresenta um resultado ao usuário. Isso pode ser uma imagem no monitor, um som nos alto-falantes, uma folha impressa, uma notificação na tela ou um arquivo exportado.</td></tr></tbody></table></div><p>O <strong>processamento</strong> acontece quando o computador interpreta os dados e executa instruções. Por exemplo, quando uma pessoa digita uma frase, o computador interpreta cada tecla pressionada e o programa transforma aquilo em letras visíveis na tela.</p><p>O <strong>armazenamento</strong> acontece quando o computador guarda informações para uso futuro. Isso ocorre quando o usuário salva um documento, uma foto, uma planilha, um vídeo, um programa ou qualquer outro arquivo.</p>
+      <figure class="component-visual"><svg viewBox="0 0 560 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagrama das quatro ações fundamentais do computador"><rect width="560" height="240" rx="18" fill="#fff8ef"/><rect x="52" y="88" width="98" height="58" rx="14" fill="#dcecff" stroke="#8fb3e1" stroke-width="3"/><text x="101" y="123" text-anchor="middle" font-size="18" font-weight="700" fill="#2d4f80">Entrada</text><rect x="168" y="88" width="108" height="58" rx="14" fill="#fff2db" stroke="#e8be7a" stroke-width="3"/><text x="222" y="123" text-anchor="middle" font-size="16" font-weight="700" fill="#8f4d1f">Processamento</text><rect x="290" y="88" width="116" height="58" rx="14" fill="#e9f6ef" stroke="#8fd0b4" stroke-width="3"/><text x="348" y="123" text-anchor="middle" font-size="16" font-weight="700" fill="#0f645b">Armazenamento</text><rect x="422" y="88" width="86" height="58" rx="14" fill="#ffe4e6" stroke="#f3a5b1" stroke-width="3"/><text x="465" y="123" text-anchor="middle" font-size="18" font-weight="700" fill="#be123c">Saída</text><path d="M150 117h18M276 117h14M406 117h16" stroke="#9aa4af" stroke-width="6" stroke-linecap="round"/><path d="M160 117l-8-7M160 117l-8 7" stroke="#9aa4af" stroke-width="4" stroke-linecap="round"/><path d="M284 117l-8-7M284 117l-8 7" stroke="#9aa4af" stroke-width="4" stroke-linecap="round"/><path d="M414 117l-8-7M414 117l-8 7" stroke="#9aa4af" stroke-width="4" stroke-linecap="round"/><circle cx="101" cy="66" r="12" fill="#60a5fa"/><circle cx="222" cy="66" r="12" fill="#f59e0b"/><circle cx="348" cy="66" r="12" fill="#34d399"/><circle cx="465" cy="66" r="12" fill="#f472b6"/></svg><figcaption>Entrada, processamento, armazenamento e saída</figcaption></figure>
+    </section>
+
+    <section class="page" id="cap8">
+      <span class="label">Ficha 8</span>
+      <h2>8. Exemplo prático das quatro etapas</h2>
+      <p>Quando o usuário digita a frase “Bom dia” em um editor de texto, o teclado envia os comandos para o computador. Essa é a entrada.</p>
+<p>O computador interpreta as teclas pressionadas e o editor de texto transforma esses comandos em letras organizadas na tela. Esse é o processamento.</p>
+<p>Se o usuário salva o documento, o arquivo fica guardado no computador, pendrive ou nuvem. Esse é o armazenamento.</p>
+<p>Quando o texto aparece no monitor ou é impresso em papel, ocorre a saída.</p>
+<p>Esse exemplo mostra que mesmo uma ação simples envolve várias etapas internas.</p>
+      <figure class="component-visual"><svg viewBox="0 0 560 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Exemplo prático das quatro etapas do computador"><rect width="560" height="240" rx="18" fill="#eefaf4"/><rect x="42" y="94" width="96" height="48" rx="12" fill="#eef4ff" stroke="#8fb3e1" stroke-width="3"/><text x="90" y="123" text-anchor="middle" font-size="14" font-weight="700" fill="#2d4f80">Teclado</text><path d="M138 118h44" stroke="#9aa4af" stroke-width="5" stroke-linecap="round"/><rect x="182" y="80" width="118" height="76" rx="14" fill="#ffffff" stroke="#d8e4dc" stroke-width="3"/><rect x="198" y="96" width="86" height="16" rx="6" fill="#dcecff"/><rect x="198" y="122" width="58" height="12" rx="6" fill="#8fb3e1"/><text x="241" y="62" text-anchor="middle" font-size="15" font-weight="700" fill="#495463">"Bom dia"</text><path d="M300 118h40" stroke="#9aa4af" stroke-width="5" stroke-linecap="round"/><rect x="340" y="86" width="86" height="64" rx="12" fill="#fff2db" stroke="#e8be7a" stroke-width="3"/><text x="383" y="124" text-anchor="middle" font-size="15" font-weight="700" fill="#8f4d1f">Salvar</text><path d="M426 118h38" stroke="#9aa4af" stroke-width="5" stroke-linecap="round"/><rect x="464" y="84" width="54" height="68" rx="10" fill="#ffe4e6" stroke="#f3a5b1" stroke-width="3"/><rect x="474" y="94" width="34" height="38" rx="6" fill="#ffffff"/><rect x="480" y="140" width="22" height="6" rx="3" fill="#be123c"/></svg><figcaption>Da digitação ao resultado exibido ou salvo</figcaption></figure>
+    </section>
+
+    <section class="page" id="cap9">
+      <span class="label">Ficha 9</span>
+      <h2>9. Hardware e software</h2>
+      <p>Para entender informática básica, é indispensável conhecer dois conceitos: hardware e software.</p>
+<p><strong>Hardware</strong> é a parte física do computador. É tudo aquilo que pode ser visto e tocado. Exemplos: monitor, teclado, mouse, gabinete, placa-mãe, processador, memória RAM, HD, SSD, fonte de alimentação, impressora, cabos, webcam, microfone e caixas de som.</p>
+<p><strong>Software</strong> é a parte lógica do computador. É formada por programas, aplicativos, sistemas e instruções que dizem ao computador o que fazer. Exemplos: Windows, Linux, macOS, Android, iOS, navegador de internet, editor de texto, planilha, antivírus, aplicativo de vídeo, aplicativo de mensagem e jogos.</p>
+<p>O hardware sem software não realiza tarefas úteis para o usuário. O software sem hardware não tem onde funcionar. Os dois trabalham juntos.</p>
+      <figure class="component-visual"><svg viewBox="0 0 560 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Comparação entre hardware e software"><rect width="560" height="240" rx="18" fill="#f8fafc"/><rect x="58" y="54" width="192" height="132" rx="18" fill="#fff8ef" stroke="#e7d8c5" stroke-width="3"/><text x="154" y="80" text-anchor="middle" font-size="20" font-weight="700" fill="#8f4d1f">Hardware</text><rect x="104" y="96" width="100" height="50" rx="10" fill="#2d3440"/><rect x="118" y="108" width="72" height="24" rx="5" fill="#dcecff"/><rect x="142" y="150" width="24" height="8" rx="4" fill="#5d6470"/><rect x="96" y="164" width="116" height="8" rx="4" fill="#caa57d"/><rect x="310" y="54" width="192" height="132" rx="18" fill="#eef4ff" stroke="#c7d6ec" stroke-width="3"/><text x="406" y="80" text-anchor="middle" font-size="20" font-weight="700" fill="#2d4f80">Software</text><rect x="346" y="98" width="120" height="48" rx="10" fill="#ffffff" stroke="#d8e4dc" stroke-width="3"/><rect x="362" y="112" width="88" height="8" rx="4" fill="#60a5fa"/><rect x="362" y="126" width="62" height="8" rx="4" fill="#cbd5e1"/><path d="M250 120h46l14 0" stroke="#94a3b8" stroke-width="6" stroke-linecap="round"/><path d="M280 104v32" stroke="#94a3b8" stroke-width="4" stroke-linecap="round"/></svg><figcaption>Parte física e parte lógica do computador</figcaption></figure>
+    </section>
+
+    <section class="page" id="cap10">
+      <span class="label">Ficha 10</span>
+      <h2>10. Analogia entre hardware e software</h2>
+      <p>Uma forma simples de entender a diferença é comparar o computador a um carro.</p>
+<p>O hardware seria a parte física do carro: motor, pneus, volante, bancos, painel e carroceria.</p>
+<p>O software seria o conjunto de instruções e sistemas que fazem o carro funcionar corretamente.</p>
+<p>No computador, as peças físicas precisam dos programas para executar tarefas. O teclado sozinho não escreve textos se não houver um sistema e um programa interpretando os comandos. O monitor sozinho não mostra informações se não houver processamento e software gerando imagem.</p>
+      <figure class="component-visual"><svg viewBox="0 0 560 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Analogia entre hardware e software usando um carro"><rect width="560" height="240" rx="18" fill="#fff8ef"/><path d="M120 150c0-22 18-40 40-40h24l30-28h84l28 28h34c18 0 32 14 32 32v20H120z" fill="#dcecff" stroke="#8fb3e1" stroke-width="4"/><circle cx="184" cy="172" r="24" fill="#2f3642"/><circle cx="184" cy="172" r="10" fill="#dcecff"/><circle cx="330" cy="172" r="24" fill="#2f3642"/><circle cx="330" cy="172" r="10" fill="#dcecff"/><rect x="232" y="96" width="50" height="26" rx="8" fill="#ffffff" opacity="0.78"/><path d="M418 84l22 12-10 16 18 10-10 16-22-12" fill="none" stroke="#8f4d1f" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="452" cy="172" r="36" fill="#e9f6ef" stroke="#8fd0b4" stroke-width="4"/><text x="452" y="165" text-anchor="middle" font-size="15" font-weight="700" fill="#0f645b">Sistema</text><text x="452" y="184" text-anchor="middle" font-size="15" font-weight="700" fill="#0f645b">de controle</text><path d="M392 144h24" stroke="#94a3b8" stroke-width="5" stroke-linecap="round"/></svg><figcaption>Carro como analogia para hardware e software</figcaption></figure>
+    </section>
+
+    <section class="page" id="cap11">
+      <span class="label">Ficha 11</span>
+      <h2>11. Exemplos de hardware</h2>
+      <p class="lead">Todo hardware é uma peça física do computador. Abaixo, cada exemplo aparece com sua própria ilustração para facilitar a identificação visual.</p>
+      <div class="hardware-grid">
+        <article class="hardware-item">
+          <figure class="component-visual"><svg viewBox="0 0 560 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração de um monitor de computador"><rect width="560" height="240" rx="18" fill="#fff8ef"/><rect x="92" y="36" width="376" height="132" rx="16" fill="#2d3440"/><rect x="108" y="52" width="344" height="100" rx="10" fill="#dcecff"/><rect x="248" y="170" width="64" height="18" rx="9" fill="#5d6470"/><rect x="220" y="188" width="120" height="18" rx="9" fill="#8f4d1f" opacity=".85"/><circle cx="140" cy="88" r="18" fill="#0f645b" opacity=".18"/><rect x="170" y="76" width="170" height="10" rx="5" fill="#8fb3e1"/><rect x="170" y="98" width="128" height="10" rx="5" fill="#8fb3e1"/><rect x="170" y="120" width="210" height="10" rx="5" fill="#8fb3e1"/></svg><figcaption>Monitor</figcaption></figure>
+          <h3>Monitor</h3>
+          <p>É hardware porque é a peça física que mostra imagens, textos e resultados na tela.</p>
+        </article>
+        <article class="hardware-item">
+          <figure class="component-visual"><svg viewBox="0 0 560 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração de um teclado"><rect width="560" height="220" rx="18" fill="#eef4ff"/><rect x="68" y="54" width="424" height="112" rx="18" fill="#3b4656"/><g fill="#f8fafc"><rect x="86" y="72" width="24" height="18" rx="4"/><rect x="117" y="72" width="24" height="18" rx="4"/><rect x="148" y="72" width="24" height="18" rx="4"/><rect x="179" y="72" width="24" height="18" rx="4"/><rect x="210" y="72" width="24" height="18" rx="4"/><rect x="241" y="72" width="24" height="18" rx="4"/><rect x="272" y="72" width="24" height="18" rx="4"/><rect x="303" y="72" width="24" height="18" rx="4"/><rect x="334" y="72" width="24" height="18" rx="4"/><rect x="365" y="72" width="24" height="18" rx="4"/><rect x="396" y="72" width="24" height="18" rx="4"/><rect x="427" y="72" width="24" height="18" rx="4"/><rect x="86" y="98" width="24" height="18" rx="4"/><rect x="117" y="98" width="24" height="18" rx="4"/><rect x="148" y="98" width="24" height="18" rx="4"/><rect x="179" y="98" width="24" height="18" rx="4"/><rect x="210" y="98" width="24" height="18" rx="4"/><rect x="241" y="98" width="24" height="18" rx="4"/><rect x="272" y="98" width="24" height="18" rx="4"/><rect x="303" y="98" width="24" height="18" rx="4"/><rect x="334" y="98" width="24" height="18" rx="4"/><rect x="365" y="98" width="24" height="18" rx="4"/><rect x="396" y="98" width="24" height="18" rx="4"/><rect x="427" y="98" width="24" height="18" rx="4"/><rect x="86" y="124" width="24" height="18" rx="4"/><rect x="117" y="124" width="24" height="18" rx="4"/><rect x="148" y="124" width="24" height="18" rx="4"/><rect x="179" y="124" width="24" height="18" rx="4"/><rect x="210" y="124" width="24" height="18" rx="4"/><rect x="241" y="124" width="24" height="18" rx="4"/><rect x="272" y="124" width="24" height="18" rx="4"/><rect x="303" y="124" width="24" height="18" rx="4"/><rect x="334" y="124" width="24" height="18" rx="4"/><rect x="365" y="124" width="24" height="18" rx="4"/><rect x="396" y="124" width="24" height="18" rx="4"/><rect x="427" y="124" width="24" height="18" rx="4"/></g><rect x="180" y="126" width="198" height="18" rx="7" fill="#dfe7f1"/></svg><figcaption>Teclado</figcaption></figure>
+          <h3>Teclado</h3>
+          <p>É hardware porque permite digitar letras, números, símbolos e comandos no computador.</p>
+        </article>
+        <article class="hardware-item">
+          <figure class="component-visual"><svg viewBox="0 0 560 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração de um mouse"><defs><linearGradient id="mouseBg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f4fbf7"/><stop offset="1" stop-color="#dcefe6"/></linearGradient><linearGradient id="mouseBody" x1="0" y1="0" x2="0.9" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="0.52" stop-color="#f3f5f7"/><stop offset="1" stop-color="#dde4ea"/></linearGradient><linearGradient id="mouseSide" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f8fbfd"/><stop offset="1" stop-color="#ccd5dd"/></linearGradient><filter id="mouseShadow" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#23443e" flood-opacity="0.18"/></filter></defs><rect width="560" height="220" rx="18" fill="url(#mouseBg)"/><ellipse cx="280" cy="184" rx="92" ry="12" fill="#9ab7b0" opacity="0.22"/><g filter="url(#mouseShadow)"><path d="M280 24c-42 0-72 31-72 77v24c0 42 19 71 43 87 9 6 19 9 29 9s20-3 29-9c24-16 43-45 43-87v-24c0-46-30-77-72-77z" fill="url(#mouseBody)" stroke="#c9d3db" stroke-width="3"/><path d="M280 24c-42 0-72 31-72 77v8c0-29 16-52 41-61 10-4 20-6 31-6 11 0 21 2 31 6 25 9 41 32 41 61v-8c0-46-30-77-72-77z" fill="#ffffff" opacity="0.78"/><path d="M280 24v70" stroke="#b7c2cb" stroke-width="3" stroke-linecap="round"/><path d="M238 58c8-10 22-17 42-17v63h-55c1-19 4-35 13-46z" fill="#f9fbfc" opacity="0.95"/><path d="M322 58c-8-10-22-17-42-17v63h55c-1-19-4-35-13-46z" fill="#edf1f5" opacity="0.95"/><rect x="268" y="55" width="24" height="38" rx="12" fill="#4e5863"/><rect x="273" y="61" width="14" height="20" rx="7" fill="#687381"/><path d="M250 138c18 10 42 13 60 9" stroke="#cfd7de" stroke-width="3" stroke-linecap="round" opacity="0.9"/><path d="M223 100c0 45 14 76 37 95" stroke="url(#mouseSide)" stroke-width="12" stroke-linecap="round" opacity="0.65"/><path d="M337 98c0 45-14 76-37 95" stroke="#d2dae1" stroke-width="10" stroke-linecap="round" opacity="0.5"/></g></svg><figcaption>Mouse</figcaption></figure>
+          <h3>Mouse</h3>
+          <p>É hardware porque move o ponteiro e permite clicar, selecionar e arrastar itens na tela.</p>
+        </article>
+        <article class="hardware-item">
+          <figure class="component-visual"><svg viewBox="0 0 560 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração de uma impressora"><rect width="560" height="240" rx="18" fill="#fff1ee"/><rect x="155" y="64" width="250" height="116" rx="16" fill="#525e6f"/><rect x="186" y="38" width="188" height="50" rx="10" fill="#ffffff" stroke="#d8e4dc"/><rect x="180" y="110" width="200" height="54" rx="8" fill="#f8fbff"/><rect x="220" y="130" width="120" height="8" rx="4" fill="#9db3d7"/><rect x="220" y="146" width="90" height="8" rx="4" fill="#9db3d7"/><circle cx="366" cy="92" r="6" fill="#0f645b"/></svg><figcaption>Impressora</figcaption></figure>
+          <h3>Impressora</h3>
+          <p>É hardware porque transforma documentos e imagens digitais em folhas impressas.</p>
+        </article>
+        <article class="hardware-item">
+          <figure class="component-visual"><svg viewBox="0 0 560 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração de um processador"><rect width="560" height="240" rx="18" fill="#eef4ff"/><g transform="translate(188,42)"><rect x="0" y="0" width="184" height="156" rx="18" fill="#f4c56b" stroke="#8f4d1f" stroke-width="4"/><rect x="34" y="28" width="116" height="100" rx="12" fill="#fff7e1"/><text x="92" y="86" text-anchor="middle" font-size="26" font-weight="700" fill="#8f4d1f">CPU</text><rect x="-10" y="18" width="16" height="8" rx="4" fill="#8f4d1f"/><rect x="178" y="18" width="16" height="8" rx="4" fill="#8f4d1f"/><rect x="-10" y="42" width="16" height="8" rx="4" fill="#8f4d1f"/><rect x="178" y="42" width="16" height="8" rx="4" fill="#8f4d1f"/><rect x="-10" y="66" width="16" height="8" rx="4" fill="#8f4d1f"/><rect x="178" y="66" width="16" height="8" rx="4" fill="#8f4d1f"/><rect x="-10" y="90" width="16" height="8" rx="4" fill="#8f4d1f"/><rect x="178" y="90" width="16" height="8" rx="4" fill="#8f4d1f"/><rect x="-10" y="114" width="16" height="8" rx="4" fill="#8f4d1f"/><rect x="178" y="114" width="16" height="8" rx="4" fill="#8f4d1f"/><rect x="-10" y="138" width="16" height="8" rx="4" fill="#8f4d1f"/><rect x="178" y="138" width="16" height="8" rx="4" fill="#8f4d1f"/><rect x="20" y="-10" width="8" height="16" rx="4" fill="#8f4d1f"/><rect x="20" y="150" width="8" height="16" rx="4" fill="#8f4d1f"/><rect x="48" y="-10" width="8" height="16" rx="4" fill="#8f4d1f"/><rect x="48" y="150" width="8" height="16" rx="4" fill="#8f4d1f"/><rect x="76" y="-10" width="8" height="16" rx="4" fill="#8f4d1f"/><rect x="76" y="150" width="8" height="16" rx="4" fill="#8f4d1f"/><rect x="104" y="-10" width="8" height="16" rx="4" fill="#8f4d1f"/><rect x="104" y="150" width="8" height="16" rx="4" fill="#8f4d1f"/><rect x="132" y="-10" width="8" height="16" rx="4" fill="#8f4d1f"/><rect x="132" y="150" width="8" height="16" rx="4" fill="#8f4d1f"/><rect x="160" y="-10" width="8" height="16" rx="4" fill="#8f4d1f"/><rect x="160" y="150" width="8" height="16" rx="4" fill="#8f4d1f"/></g></svg><figcaption>Processador</figcaption></figure>
+          <h3>Processador</h3>
+          <p>É hardware porque é uma peça interna responsável por executar instruções e cálculos.</p>
+        </article>
+        <article class="hardware-item">
+          <figure class="component-visual"><svg viewBox="0 0 560 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração de memória RAM"><rect width="560" height="220" rx="18" fill="#fff8ef"/><rect x="100" y="86" width="360" height="58" rx="12" fill="#2d6a4f"/><rect x="126" y="100" width="48" height="24" rx="5" fill="#d8f3dc"/><rect x="186" y="100" width="48" height="24" rx="5" fill="#d8f3dc"/><rect x="246" y="100" width="48" height="24" rx="5" fill="#d8f3dc"/><rect x="306" y="100" width="48" height="24" rx="5" fill="#d8f3dc"/><rect x="366" y="100" width="48" height="24" rx="5" fill="#d8f3dc"/><rect x="118" y="144" width="10" height="18" rx="3" fill="#f4c56b"/><rect x="138" y="144" width="10" height="18" rx="3" fill="#f4c56b"/><rect x="158" y="144" width="10" height="18" rx="3" fill="#f4c56b"/><rect x="178" y="144" width="10" height="18" rx="3" fill="#f4c56b"/><rect x="198" y="144" width="10" height="18" rx="3" fill="#f4c56b"/><rect x="218" y="144" width="10" height="18" rx="3" fill="#f4c56b"/><rect x="238" y="144" width="10" height="18" rx="3" fill="#f4c56b"/><rect x="258" y="144" width="10" height="18" rx="3" fill="#f4c56b"/><rect x="278" y="144" width="10" height="18" rx="3" fill="#f4c56b"/><rect x="298" y="144" width="10" height="18" rx="3" fill="#f4c56b"/><rect x="318" y="144" width="10" height="18" rx="3" fill="#f4c56b"/><rect x="338" y="144" width="10" height="18" rx="3" fill="#f4c56b"/><rect x="358" y="144" width="10" height="18" rx="3" fill="#f4c56b"/><rect x="378" y="144" width="10" height="18" rx="3" fill="#f4c56b"/><rect x="398" y="144" width="10" height="18" rx="3" fill="#f4c56b"/><rect x="418" y="144" width="10" height="18" rx="3" fill="#f4c56b"/></svg><figcaption>Memória RAM</figcaption></figure>
+          <h3>Memória RAM</h3>
+          <p>É hardware porque funciona como uma peça temporária de trabalho durante o uso do computador.</p>
+        </article>
+        <article class="hardware-item">
+          <figure class="component-visual"><svg viewBox="0 0 560 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração comparativa entre HD e SSD"><defs><linearGradient id="hdCase" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fefefe"/><stop offset="1" stop-color="#dce3ea"/></linearGradient><linearGradient id="ssdCase" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f8fbfd"/><stop offset="1" stop-color="#cfd8e3"/></linearGradient><linearGradient id="ssdBoard" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2fb572"/><stop offset="1" stop-color="#146c43"/></linearGradient><filter id="driveShadow" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#23313f" flood-opacity="0.14"/></filter></defs><rect width="560" height="250" rx="18" fill="#fff1ee"/><g filter="url(#driveShadow)"><rect x="62" y="40" width="184" height="162" rx="18" fill="url(#hdCase)" stroke="#b8c3cf" stroke-width="3"/><circle cx="156" cy="122" r="42" fill="#eef4fb" stroke="#9db3d7" stroke-width="4"/><circle cx="156" cy="122" r="26" fill="none" stroke="#c4d4e6" stroke-width="8"/><circle cx="156" cy="122" r="8" fill="#66788f"/><path d="M156 122l34-26" stroke="#8f4d1f" stroke-width="5" stroke-linecap="round"/><circle cx="192" cy="92" r="5" fill="#8f4d1f"/><rect x="90" y="60" width="30" height="10" rx="5" fill="#c7d2de"/><rect x="124" y="60" width="30" height="10" rx="5" fill="#c7d2de"/><rect x="188" y="60" width="30" height="10" rx="5" fill="#c7d2de"/><circle cx="84" cy="62" r="3" fill="#94a3b8"/><circle cx="224" cy="62" r="3" fill="#94a3b8"/><circle cx="84" cy="180" r="3" fill="#94a3b8"/><circle cx="224" cy="180" r="3" fill="#94a3b8"/><text x="154" y="225" text-anchor="middle" font-size="20" font-weight="700" fill="#8f4d1f">HD</text></g><g filter="url(#driveShadow)"><rect x="314" y="40" width="184" height="162" rx="18" fill="url(#ssdCase)" stroke="#b8c3cf" stroke-width="3"/><rect x="334" y="62" width="144" height="94" rx="14" fill="url(#ssdBoard)"/><rect x="352" y="82" width="42" height="22" rx="6" fill="#d8f3dc" opacity="0.9"/><rect x="402" y="82" width="52" height="22" rx="6" fill="#c7f1da" opacity="0.92"/><rect x="352" y="114" width="72" height="16" rx="6" fill="#0f5132" opacity="0.55"/><rect x="430" y="114" width="24" height="16" rx="6" fill="#0f5132" opacity="0.55"/><rect x="348" y="164" width="116" height="12" rx="4" fill="#caa54d"/><rect x="472" y="164" width="10" height="12" rx="2" fill="#e7c96b"/><circle cx="346" cy="72" r="3" fill="#e5edf5"/><circle cx="466" cy="72" r="3" fill="#e5edf5"/><circle cx="346" cy="146" r="3" fill="#e5edf5"/><circle cx="466" cy="146" r="3" fill="#e5edf5"/><text x="406" y="225" text-anchor="middle" font-size="20" font-weight="700" fill="#0f645b">SSD</text></g></svg><figcaption>HD e SSD</figcaption></figure>
+          <h3>HD e SSD</h3>
+          <p>São hardware porque guardam arquivos, programas e o sistema operacional no armazenamento do computador.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="page" id="cap12">
+      <span class="label">Ficha 12</span>
+      <h2>12. Exemplos de software</h2>
+      <p class="lead">Software é a parte lógica do computador. Nesta seção, cada tipo aparece com uma ilustração temática para ficar mais fácil associar a função ao programa.</p>
+      <div class="hardware-grid">
+        <article class="hardware-item">
+          <figure class="component-visual"><svg viewBox="0 0 560 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração de um sistema operacional"><rect width="560" height="240" rx="18" fill="#eef4ff"/><rect x="92" y="34" width="376" height="170" rx="20" fill="#1f2937"/><rect x="112" y="54" width="336" height="126" rx="12" fill="#f8fbff"/><rect x="112" y="186" width="336" height="18" rx="9" fill="#334155"/><rect x="140" y="82" width="136" height="40" rx="10" fill="#60a5fa"/><rect x="284" y="82" width="136" height="40" rx="10" fill="#34d399"/><rect x="140" y="130" width="136" height="32" rx="10" fill="#fbbf24"/><rect x="284" y="130" width="136" height="32" rx="10" fill="#f87171"/><circle cx="138" cy="70" r="5" fill="#94a3b8"/><circle cx="156" cy="70" r="5" fill="#94a3b8"/><circle cx="174" cy="70" r="5" fill="#94a3b8"/><rect x="230" y="193" width="100" height="6" rx="3" fill="#cbd5e1"/></svg><figcaption>Sistema operacional</figcaption></figure>
+          <h3>Sistema operacional</h3>
+          <p>Organiza o funcionamento geral do computador e permite abrir programas, arquivos e configurações.</p>
+        </article>
+        <article class="hardware-item">
+          <figure class="component-visual"><svg viewBox="0 0 560 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração de um navegador"><rect width="560" height="240" rx="18" fill="#fff8ef"/><rect x="88" y="38" width="384" height="164" rx="18" fill="#ffffff" stroke="#d8e4dc" stroke-width="3"/><rect x="88" y="38" width="384" height="34" rx="18" fill="#e2e8f0"/><rect x="154" y="46" width="256" height="18" rx="9" fill="#ffffff" stroke="#cbd5e1"/><circle cx="116" cy="55" r="5" fill="#f87171"/><circle cx="132" cy="55" r="5" fill="#fbbf24"/><circle cx="148" cy="55" r="5" fill="#34d399"/><circle cx="280" cy="134" r="44" fill="#dbeafe" stroke="#60a5fa" stroke-width="8"/><path d="M280 90c23 0 42 19 42 42s-19 42-42 42-42-19-42-42 19-42 42-42z" fill="none" stroke="#2563eb" stroke-width="6"/><path d="M238 134h84M280 92c-12 14-18 28-18 42s6 28 18 42M280 92c12 14 18 28 18 42s-6 28-18 42" stroke="#2563eb" stroke-width="4" stroke-linecap="round"/><rect x="132" y="88" width="74" height="12" rx="6" fill="#e2e8f0"/><rect x="132" y="108" width="54" height="12" rx="6" fill="#e2e8f0"/><rect x="354" y="160" width="62" height="10" rx="5" fill="#cbd5e1"/></svg><figcaption>Navegador</figcaption></figure>
+          <h3>Navegador</h3>
+          <p>Permite acessar sites, fazer pesquisas e abrir páginas na internet.</p>
+        </article>
+        <article class="hardware-item">
+          <figure class="component-visual"><svg viewBox="0 0 560 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração de um editor de texto"><rect width="560" height="240" rx="18" fill="#eefaf4"/><rect x="120" y="28" width="220" height="178" rx="14" fill="#ffffff" stroke="#cfe2d8" stroke-width="3"/><polygon points="304,28 340,64 304,64" fill="#d7efe2"/><rect x="156" y="78" width="148" height="10" rx="5" fill="#60a5fa"/><rect x="156" y="100" width="148" height="10" rx="5" fill="#cbd5e1"/><rect x="156" y="122" width="132" height="10" rx="5" fill="#cbd5e1"/><rect x="156" y="144" width="144" height="10" rx="5" fill="#cbd5e1"/><rect x="156" y="166" width="94" height="10" rx="5" fill="#cbd5e1"/><path d="M370 168l18-52 26 26-52 18z" fill="#f59e0b"/><path d="M382 118l14-14 18 18-14 14z" fill="#8b5cf6"/><rect x="358" y="172" width="72" height="12" rx="6" fill="#e2e8f0"/></svg><figcaption>Editor de texto</figcaption></figure>
+          <h3>Editor de texto</h3>
+          <p>Serve para escrever documentos, cartas, trabalhos e anotações digitadas.</p>
+        </article>
+        <article class="hardware-item">
+          <figure class="component-visual"><svg viewBox="0 0 560 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração de uma planilha eletrônica"><rect width="560" height="240" rx="18" fill="#f0fdf4"/><rect x="108" y="34" width="344" height="172" rx="18" fill="#ffffff" stroke="#b7e4c7" stroke-width="3"/><rect x="108" y="34" width="344" height="34" rx="18" fill="#22c55e"/><rect x="136" y="86" width="70" height="26" rx="6" fill="#dcfce7"/><rect x="214" y="86" width="70" height="26" rx="6" fill="#dcfce7"/><rect x="292" y="86" width="70" height="26" rx="6" fill="#dcfce7"/><rect x="370" y="86" width="54" height="26" rx="6" fill="#bbf7d0"/><rect x="136" y="120" width="70" height="20" rx="6" fill="#f8fafc" stroke="#d1d5db"/><rect x="214" y="120" width="70" height="20" rx="6" fill="#f8fafc" stroke="#d1d5db"/><rect x="292" y="120" width="70" height="20" rx="6" fill="#f8fafc" stroke="#d1d5db"/><rect x="370" y="120" width="54" height="20" rx="6" fill="#ecfccb" stroke="#bef264"/><rect x="136" y="148" width="70" height="20" rx="6" fill="#f8fafc" stroke="#d1d5db"/><rect x="214" y="148" width="70" height="20" rx="6" fill="#f8fafc" stroke="#d1d5db"/><rect x="292" y="148" width="70" height="20" rx="6" fill="#f8fafc" stroke="#d1d5db"/><rect x="370" y="148" width="54" height="20" rx="6" fill="#dcfce7" stroke="#86efac"/><path d="M390 172l12-18 10 8 18-28" fill="none" stroke="#15803d" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg><figcaption>Planilha eletrônica</figcaption></figure>
+          <h3>Planilha eletrônica</h3>
+          <p>Ajuda a organizar tabelas, números, contas e dados em células.</p>
+        </article>
+        <article class="hardware-item">
+          <figure class="component-visual"><svg viewBox="0 0 560 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração de um antivírus"><rect width="560" height="240" rx="18" fill="#fff1ee"/><path d="M280 48l92 30v44c0 42-27 74-92 100-65-26-92-58-92-100V78l92-30z" fill="#ffffff" stroke="#ef4444" stroke-width="8"/><path d="M280 76v114" stroke="#fecaca" stroke-width="6"/><path d="M218 116h124" stroke="#fecaca" stroke-width="6"/><path d="M238 126l28 28 58-62" fill="none" stroke="#16a34a" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><circle cx="404" cy="78" r="24" fill="#fee2e2"/><path d="M396 70l16 16M412 70l-16 16" stroke="#ef4444" stroke-width="6" stroke-linecap="round"/><rect x="134" y="176" width="92" height="10" rx="5" fill="#fecdd3"/><rect x="334" y="176" width="92" height="10" rx="5" fill="#fecdd3"/></svg><figcaption>Antivírus</figcaption></figure>
+          <h3>Antivírus</h3>
+          <p>Ajuda a proteger o computador contra vírus, arquivos suspeitos e outras ameaças digitais.</p>
+        </article>
+        <article class="hardware-item">
+          <figure class="component-visual"><svg viewBox="0 0 560 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração de aplicativos"><rect width="560" height="240" rx="18" fill="#faf5ff"/><rect x="110" y="44" width="110" height="68" rx="18" fill="#60a5fa"/><path d="M142 78h46" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/><path d="M165 55v46" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/><rect x="226" y="44" width="110" height="68" rx="18" fill="#34d399"/><path d="M252 82c10 0 16-8 29-8s19 8 29 8c11 0 19-8 19-18 0-11-8-18-18-18-9 0-15 5-21 11-6-6-12-11-21-11-10 0-18 7-18 18 0 10 8 18 19 18z" fill="#ffffff" opacity="0.96"/><rect x="342" y="44" width="110" height="68" rx="18" fill="#f59e0b"/><circle cx="397" cy="78" r="18" fill="#ffffff" opacity="0.96"/><path d="M397 60v18l14 10" stroke="#f59e0b" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><rect x="110" y="126" width="110" height="68" rx="18" fill="#f472b6"/><path d="M144 166c0-18 15-33 33-33s33 15 33 33" fill="none" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/><circle cx="177" cy="151" r="12" fill="#ffffff"/><rect x="226" y="126" width="110" height="68" rx="18" fill="#818cf8"/><polygon points="266,144 300,160 266,176" fill="#ffffff"/><rect x="342" y="126" width="110" height="68" rx="18" fill="#fb7185"/><circle cx="378" cy="160" r="15" fill="#ffffff"/><rect x="398" y="145" width="20" height="30" rx="6" fill="#ffffff"/></svg><figcaption>Aplicativos diversos</figcaption></figure>
+          <h3>Aplicativos</h3>
+          <p>Incluem programas de mensagem, vídeo, música, imagem e redes sociais usados no dia a dia.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="page" id="cap13">
+      <span class="label">Ficha 13</span>
+      <h2>13. Partes externas do computador</h2>
+      <p class="lead">As partes externas são aquelas que o usuário vê e utiliza diretamente. Elas permitem interagir com o computador, visualizar informações, digitar, clicar, ouvir sons, imprimir documentos e conectar acessórios.</p>
+<p>As principais partes externas são monitor, teclado, mouse, gabinete, caixas de som, fones, impressora, webcam, microfone e cabos.</p>
+<p>Essas partes são chamadas, em muitos casos, de periféricos. Periférico é um equipamento conectado ao computador para entrada, saída ou apoio ao funcionamento.</p>
+      <div class="hardware-grid">
+        <article class="hardware-item">
+          <figure class="component-visual"><svg viewBox="0 0 560 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração de um monitor de computador"><rect width="560" height="240" rx="18" fill="#fff8ef"/><rect x="92" y="36" width="376" height="132" rx="16" fill="#2d3440"/><rect x="108" y="52" width="344" height="100" rx="10" fill="#dcecff"/><rect x="248" y="170" width="64" height="18" rx="9" fill="#5d6470"/><rect x="220" y="188" width="120" height="18" rx="9" fill="#8f4d1f" opacity=".85"/><circle cx="140" cy="88" r="18" fill="#0f645b" opacity=".18"/><rect x="170" y="76" width="170" height="10" rx="5" fill="#8fb3e1"/><rect x="170" y="98" width="128" height="10" rx="5" fill="#8fb3e1"/><rect x="170" y="120" width="210" height="10" rx="5" fill="#8fb3e1"/></svg><figcaption>Monitor</figcaption></figure>
+          <h3>Monitor</h3>
+          <p>Mostra imagens, textos, vídeos e o resultado visual das ações do usuário.</p>
+        </article>
+        <article class="hardware-item">
+          <figure class="component-visual"><svg viewBox="0 0 560 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração de um teclado"><rect width="560" height="220" rx="18" fill="#eef4ff"/><rect x="68" y="54" width="424" height="112" rx="18" fill="#3b4656"/><g fill="#f8fafc"><rect x="86" y="72" width="24" height="18" rx="4"/><rect x="117" y="72" width="24" height="18" rx="4"/><rect x="148" y="72" width="24" height="18" rx="4"/><rect x="179" y="72" width="24" height="18" rx="4"/><rect x="210" y="72" width="24" height="18" rx="4"/><rect x="241" y="72" width="24" height="18" rx="4"/><rect x="272" y="72" width="24" height="18" rx="4"/><rect x="303" y="72" width="24" height="18" rx="4"/><rect x="334" y="72" width="24" height="18" rx="4"/><rect x="365" y="72" width="24" height="18" rx="4"/><rect x="396" y="72" width="24" height="18" rx="4"/><rect x="427" y="72" width="24" height="18" rx="4"/><rect x="86" y="98" width="24" height="18" rx="4"/><rect x="117" y="98" width="24" height="18" rx="4"/><rect x="148" y="98" width="24" height="18" rx="4"/><rect x="179" y="98" width="24" height="18" rx="4"/><rect x="210" y="98" width="24" height="18" rx="4"/><rect x="241" y="98" width="24" height="18" rx="4"/><rect x="272" y="98" width="24" height="18" rx="4"/><rect x="303" y="98" width="24" height="18" rx="4"/><rect x="334" y="98" width="24" height="18" rx="4"/><rect x="365" y="98" width="24" height="18" rx="4"/><rect x="396" y="98" width="24" height="18" rx="4"/><rect x="427" y="98" width="24" height="18" rx="4"/><rect x="86" y="124" width="24" height="18" rx="4"/><rect x="117" y="124" width="24" height="18" rx="4"/><rect x="148" y="124" width="24" height="18" rx="4"/><rect x="179" y="124" width="24" height="18" rx="4"/><rect x="210" y="124" width="24" height="18" rx="4"/><rect x="241" y="124" width="24" height="18" rx="4"/><rect x="272" y="124" width="24" height="18" rx="4"/><rect x="303" y="124" width="24" height="18" rx="4"/><rect x="334" y="124" width="24" height="18" rx="4"/><rect x="365" y="124" width="24" height="18" rx="4"/><rect x="396" y="124" width="24" height="18" rx="4"/><rect x="427" y="124" width="24" height="18" rx="4"/></g><rect x="180" y="126" width="198" height="18" rx="7" fill="#dfe7f1"/></svg><figcaption>Teclado</figcaption></figure>
+          <h3>Teclado</h3>
+          <p>Permite digitar letras, números, símbolos e comandos no computador.</p>
+        </article>
+        <article class="hardware-item">
+          <figure class="component-visual"><svg viewBox="0 0 560 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração de um mouse"><defs><linearGradient id="extMouseBg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f4fbf7"/><stop offset="1" stop-color="#dcefe6"/></linearGradient><linearGradient id="extMouseBody" x1="0" y1="0" x2="0.9" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="0.52" stop-color="#f3f5f7"/><stop offset="1" stop-color="#dde4ea"/></linearGradient><linearGradient id="extMouseSide" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f8fbfd"/><stop offset="1" stop-color="#ccd5dd"/></linearGradient><filter id="extMouseShadow" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#23443e" flood-opacity="0.18"/></filter></defs><rect width="560" height="220" rx="18" fill="url(#extMouseBg)"/><ellipse cx="280" cy="184" rx="92" ry="12" fill="#9ab7b0" opacity="0.22"/><g filter="url(#extMouseShadow)"><path d="M280 24c-42 0-72 31-72 77v24c0 42 19 71 43 87 9 6 19 9 29 9s20-3 29-9c24-16 43-45 43-87v-24c0-46-30-77-72-77z" fill="url(#extMouseBody)" stroke="#c9d3db" stroke-width="3"/><path d="M280 24c-42 0-72 31-72 77v8c0-29 16-52 41-61 10-4 20-6 31-6 11 0 21 2 31 6 25 9 41 32 41 61v-8c0-46-30-77-72-77z" fill="#ffffff" opacity="0.78"/><path d="M280 24v70" stroke="#b7c2cb" stroke-width="3" stroke-linecap="round"/><path d="M238 58c8-10 22-17 42-17v63h-55c1-19 4-35 13-46z" fill="#f9fbfc" opacity="0.95"/><path d="M322 58c-8-10-22-17-42-17v63h55c-1-19-4-35-13-46z" fill="#edf1f5" opacity="0.95"/><rect x="268" y="55" width="24" height="38" rx="12" fill="#4e5863"/><rect x="273" y="61" width="14" height="20" rx="7" fill="#687381"/><path d="M250 138c18 10 42 13 60 9" stroke="#cfd7de" stroke-width="3" stroke-linecap="round" opacity="0.9"/><path d="M223 100c0 45 14 76 37 95" stroke="url(#extMouseSide)" stroke-width="12" stroke-linecap="round" opacity="0.65"/><path d="M337 98c0 45-14 76-37 95" stroke="#d2dae1" stroke-width="10" stroke-linecap="round" opacity="0.5"/></g></svg><figcaption>Mouse</figcaption></figure>
+          <h3>Mouse</h3>
+          <p>Move o ponteiro, abre itens e ajuda a selecionar, clicar e arrastar elementos.</p>
+        </article>
+        <article class="hardware-item">
+          <figure class="component-visual"><svg viewBox="0 0 560 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração de um gabinete"><rect width="560" height="240" rx="18" fill="#fff2db"/><rect x="214" y="28" width="132" height="184" rx="18" fill="#2f3642"/><rect x="232" y="48" width="96" height="90" rx="10" fill="#dcecff"/><circle cx="280" cy="166" r="8" fill="#0f645b"/><rect x="246" y="182" width="68" height="8" rx="4" fill="#778090"/><rect x="350" y="56" width="42" height="112" rx="10" fill="#ffffff" opacity=".5"/></svg><figcaption>Gabinete</figcaption></figure>
+          <h3>Gabinete</h3>
+          <p>É a estrutura externa do computador de mesa onde ficam protegidas várias peças internas.</p>
+        </article>
+        <article class="hardware-item">
+          <figure class="component-visual"><svg viewBox="0 0 560 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração de uma impressora"><rect width="560" height="240" rx="18" fill="#fff1ee"/><rect x="155" y="64" width="250" height="116" rx="16" fill="#525e6f"/><rect x="186" y="38" width="188" height="50" rx="10" fill="#ffffff" stroke="#d8e4dc"/><rect x="180" y="110" width="200" height="54" rx="8" fill="#f8fbff"/><rect x="220" y="130" width="120" height="8" rx="4" fill="#9db3d7"/><rect x="220" y="146" width="90" height="8" rx="4" fill="#9db3d7"/><circle cx="366" cy="92" r="6" fill="#0f645b"/></svg><figcaption>Impressora</figcaption></figure>
+          <h3>Impressora</h3>
+          <p>Transforma textos e imagens digitais em folhas impressas.</p>
+        </article>
+        <article class="hardware-item">
+          <figure class="component-visual"><svg viewBox="0 0 560 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração de caixas de som"><rect width="560" height="240" rx="18" fill="#eef4ff"/><rect x="154" y="52" width="84" height="138" rx="18" fill="#2f3642"/><circle cx="196" cy="98" r="18" fill="#dcecff"/><circle cx="196" cy="146" r="28" fill="#dcecff"/><circle cx="196" cy="146" r="12" fill="#9db3d7"/><rect x="322" y="52" width="84" height="138" rx="18" fill="#2f3642"/><circle cx="364" cy="98" r="18" fill="#dcecff"/><circle cx="364" cy="146" r="28" fill="#dcecff"/><circle cx="364" cy="146" r="12" fill="#9db3d7"/></svg><figcaption>Caixas de som</figcaption></figure>
+          <h3>Caixas de som</h3>
+          <p>Reproduzem música, vídeos, chamadas e sons emitidos pelo sistema.</p>
+        </article>
+        <article class="hardware-item">
+          <figure class="component-visual"><svg viewBox="0 0 560 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração de fones de ouvido"><rect width="560" height="240" rx="18" fill="#fff8ef"/><path d="M178 138c0-54 46-96 102-96s102 42 102 96" fill="none" stroke="#8f4d1f" stroke-width="18" stroke-linecap="round"/><rect x="170" y="128" width="38" height="64" rx="18" fill="#8f4d1f"/><rect x="352" y="128" width="38" height="64" rx="18" fill="#8f4d1f"/><rect x="212" y="56" width="136" height="22" rx="11" fill="#e7d8c5"/><path d="M208 168c18 8 38 12 72 12s54-4 72-12" fill="none" stroke="#d5c1a4" stroke-width="6" stroke-linecap="round"/></svg><figcaption>Fones de ouvido</figcaption></figure>
+          <h3>Fones</h3>
+          <p>Permitem ouvir áudio com mais privacidade, sem usar alto-falantes externos.</p>
+        </article>
+        <article class="hardware-item">
+          <figure class="component-visual"><svg viewBox="0 0 560 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração de uma webcam"><rect width="560" height="240" rx="18" fill="#eefaf4"/><rect x="164" y="64" width="232" height="108" rx="24" fill="#2f3642"/><circle cx="280" cy="118" r="34" fill="#dcecff"/><circle cx="280" cy="118" r="20" fill="#8fb3e1"/><circle cx="280" cy="118" r="9" fill="#1e293b"/><circle cx="340" cy="94" r="6" fill="#34d399"/><rect x="236" y="172" width="88" height="14" rx="7" fill="#64748b"/><rect x="214" y="186" width="132" height="12" rx="6" fill="#94a3b8"/></svg><figcaption>Webcam</figcaption></figure>
+          <h3>Webcam</h3>
+          <p>Capta imagem para videochamadas, aulas remotas e gravações.</p>
+        </article>
+        <article class="hardware-item">
+          <figure class="component-visual"><svg viewBox="0 0 560 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração de um microfone"><rect width="560" height="240" rx="18" fill="#fff1ee"/><rect x="246" y="58" width="68" height="92" rx="34" fill="#0f645b"/><rect x="262" y="74" width="36" height="58" rx="18" fill="#9fd8cf" opacity="0.55"/><path d="M224 126c0 31 25 56 56 56s56-25 56-56" fill="none" stroke="#0f645b" stroke-width="10" stroke-linecap="round"/><path d="M280 182v20" stroke="#0f645b" stroke-width="10" stroke-linecap="round"/><rect x="236" y="202" width="88" height="10" rx="5" fill="#0f645b"/></svg><figcaption>Microfone</figcaption></figure>
+          <h3>Microfone</h3>
+          <p>Capta voz e som para gravações, reuniões e comandos por áudio.</p>
+        </article>
+        <article class="hardware-item">
+          <figure class="component-visual"><svg viewBox="0 0 560 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração de cabos e conectores"><rect width="560" height="240" rx="18" fill="#f8fafc"/><path d="M150 72c36 0 54 22 54 58s-20 56-54 56" fill="none" stroke="#475569" stroke-width="14" stroke-linecap="round"/><path d="M410 72c-36 0-54 22-54 58s20 56 54 56" fill="none" stroke="#475569" stroke-width="14" stroke-linecap="round"/><rect x="118" y="58" width="42" height="28" rx="8" fill="#0f645b"/><rect x="400" y="58" width="42" height="28" rx="8" fill="#8f4d1f"/><rect x="118" y="174" width="42" height="28" rx="8" fill="#0f645b"/><rect x="400" y="174" width="42" height="28" rx="8" fill="#8f4d1f"/><rect x="244" y="106" width="72" height="28" rx="10" fill="#dcecff" stroke="#94a3b8" stroke-width="3"/><rect x="256" y="134" width="48" height="18" rx="8" fill="#94a3b8"/></svg><figcaption>Cabos</figcaption></figure>
+          <h3>Cabos</h3>
+          <p>Conectam energia, imagem, som e acessórios entre o computador e outros dispositivos.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="page" id="cap14">
+      <span class="label">Ficha 14</span>
+      <h2>14. Monitor</h2>
+      <p class="lead">O monitor é a tela do computador. Ele mostra imagens, textos, vídeos, janelas, ícones, menus, programas e resultados das ações do usuário.</p>
+<p>Sem o monitor, o computador pode até estar funcionando internamente, mas o usuário não consegue visualizar facilmente o que está acontecendo.</p>
+<p>Em notebooks, o monitor já vem integrado ao equipamento. Em computadores de mesa, o monitor é uma peça separada, conectada ao gabinete por cabos como HDMI, VGA, DisplayPort ou outros padrões.</p>
+    
+      <figure class="component-visual"><svg viewBox="0 0 560 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração de um monitor de computador"><rect width="560" height="240" rx="18" fill="#fff8ef"/><rect x="92" y="36" width="376" height="132" rx="16" fill="#2d3440"/><rect x="108" y="52" width="344" height="100" rx="10" fill="#dcecff"/><rect x="248" y="170" width="64" height="18" rx="9" fill="#5d6470"/><rect x="220" y="188" width="120" height="18" rx="9" fill="#8f4d1f" opacity=".85"/><circle cx="140" cy="88" r="18" fill="#0f645b" opacity=".18"/><rect x="170" y="76" width="170" height="10" rx="5" fill="#8fb3e1"/><rect x="170" y="98" width="128" height="10" rx="5" fill="#8fb3e1"/><rect x="170" y="120" width="210" height="10" rx="5" fill="#8fb3e1"/></svg><figcaption>Monitor</figcaption></figure>
+    </section>
+
+    <section class="page" id="cap15">
+      <span class="label">Ficha 15</span>
+      <h2>15. Teclado</h2>
+      <p class="lead">O teclado é usado para digitar letras, números, símbolos e comandos. Ele possui teclas comuns, como letras e números, e teclas especiais, como Enter, Shift, Ctrl, Alt, Backspace, Delete, Esc, Tab e teclas de função.</p>
+<p>A tecla Enter geralmente confirma comandos ou quebra linhas em textos.</p>
+<p>A tecla Backspace apaga o caractere anterior.</p>
+<p>A tecla Delete apaga o caractere seguinte ou remove itens selecionados.</p>
+<p>A tecla Shift permite digitar letras maiúsculas e símbolos superiores das teclas.</p>
+<p>A tecla Ctrl é usada em combinações de atalhos, como <span class="kbd">Ctrl</span> + <span class="kbd">C</span> para copiar e <span class="kbd">Ctrl</span> + <span class="kbd">V</span> para colar.</p>
+    
+      <figure class="component-visual"><svg viewBox="0 0 560 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração de um teclado"><rect width="560" height="220" rx="18" fill="#eef4ff"/><rect x="68" y="54" width="424" height="112" rx="18" fill="#3b4656"/><g fill="#f8fafc"><rect x="86" y="72" width="24" height="18" rx="4"/><rect x="117" y="72" width="24" height="18" rx="4"/><rect x="148" y="72" width="24" height="18" rx="4"/><rect x="179" y="72" width="24" height="18" rx="4"/><rect x="210" y="72" width="24" height="18" rx="4"/><rect x="241" y="72" width="24" height="18" rx="4"/><rect x="272" y="72" width="24" height="18" rx="4"/><rect x="303" y="72" width="24" height="18" rx="4"/><rect x="334" y="72" width="24" height="18" rx="4"/><rect x="365" y="72" width="24" height="18" rx="4"/><rect x="396" y="72" width="24" height="18" rx="4"/><rect x="427" y="72" width="24" height="18" rx="4"/><rect x="86" y="98" width="24" height="18" rx="4"/><rect x="117" y="98" width="24" height="18" rx="4"/><rect x="148" y="98" width="24" height="18" rx="4"/><rect x="179" y="98" width="24" height="18" rx="4"/><rect x="210" y="98" width="24" height="18" rx="4"/><rect x="241" y="98" width="24" height="18" rx="4"/><rect x="272" y="98" width="24" height="18" rx="4"/><rect x="303" y="98" width="24" height="18" rx="4"/><rect x="334" y="98" width="24" height="18" rx="4"/><rect x="365" y="98" width="24" height="18" rx="4"/><rect x="396" y="98" width="24" height="18" rx="4"/><rect x="427" y="98" width="24" height="18" rx="4"/><rect x="86" y="124" width="24" height="18" rx="4"/><rect x="117" y="124" width="24" height="18" rx="4"/><rect x="148" y="124" width="24" height="18" rx="4"/><rect x="179" y="124" width="24" height="18" rx="4"/><rect x="210" y="124" width="24" height="18" rx="4"/><rect x="241" y="124" width="24" height="18" rx="4"/><rect x="272" y="124" width="24" height="18" rx="4"/><rect x="303" y="124" width="24" height="18" rx="4"/><rect x="334" y="124" width="24" height="18" rx="4"/><rect x="365" y="124" width="24" height="18" rx="4"/><rect x="396" y="124" width="24" height="18" rx="4"/><rect x="427" y="124" width="24" height="18" rx="4"/></g><rect x="180" y="126" width="198" height="18" rx="7" fill="#dfe7f1"/></svg><figcaption>Teclado</figcaption></figure>
+    </section>
+
+    <section class="page" id="cap16">
+      <span class="label">Ficha 16</span>
+      <h2>16. Mouse</h2>
+      <p>O mouse é usado para mover o ponteiro na tela, clicar, selecionar, arrastar objetos, abrir programas e interagir com menus.</p>
+<p>O clique esquerdo geralmente seleciona ou abre itens.</p>
+<p>O clique duplo abre arquivos, pastas ou programas em muitos sistemas.</p>
+<p>O clique direito abre menus de opções.</p>
+<p>A roda de rolagem permite subir e descer páginas, documentos e listas.</p>
+<p>Em notebooks, o touchpad pode substituir o mouse. Ele funciona como uma superfície sensível ao toque.</p>
+    
+      <figure class="component-visual"><svg viewBox="0 0 560 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração de um mouse"><defs><linearGradient id="mouseBg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f4fbf7"/><stop offset="1" stop-color="#dcefe6"/></linearGradient><linearGradient id="mouseBody" x1="0" y1="0" x2="0.9" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="0.52" stop-color="#f3f5f7"/><stop offset="1" stop-color="#dde4ea"/></linearGradient><linearGradient id="mouseSide" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f8fbfd"/><stop offset="1" stop-color="#ccd5dd"/></linearGradient><filter id="mouseShadow" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#23443e" flood-opacity="0.18"/></filter></defs><rect width="560" height="220" rx="18" fill="url(#mouseBg)"/><ellipse cx="280" cy="184" rx="92" ry="12" fill="#9ab7b0" opacity="0.22"/><g filter="url(#mouseShadow)"><path d="M280 24c-42 0-72 31-72 77v24c0 42 19 71 43 87 9 6 19 9 29 9s20-3 29-9c24-16 43-45 43-87v-24c0-46-30-77-72-77z" fill="url(#mouseBody)" stroke="#c9d3db" stroke-width="3"/><path d="M280 24c-42 0-72 31-72 77v8c0-29 16-52 41-61 10-4 20-6 31-6 11 0 21 2 31 6 25 9 41 32 41 61v-8c0-46-30-77-72-77z" fill="#ffffff" opacity="0.78"/><path d="M280 24v70" stroke="#b7c2cb" stroke-width="3" stroke-linecap="round"/><path d="M238 58c8-10 22-17 42-17v63h-55c1-19 4-35 13-46z" fill="#f9fbfc" opacity="0.95"/><path d="M322 58c-8-10-22-17-42-17v63h55c-1-19-4-35-13-46z" fill="#edf1f5" opacity="0.95"/><rect x="268" y="55" width="24" height="38" rx="12" fill="#4e5863"/><rect x="273" y="61" width="14" height="20" rx="7" fill="#687381"/><path d="M250 138c18 10 42 13 60 9" stroke="#cfd7de" stroke-width="3" stroke-linecap="round" opacity="0.9"/><path d="M223 100c0 45 14 76 37 95" stroke="url(#mouseSide)" stroke-width="12" stroke-linecap="round" opacity="0.65"/><path d="M337 98c0 45-14 76-37 95" stroke="#d2dae1" stroke-width="10" stroke-linecap="round" opacity="0.5"/></g></svg><figcaption>Mouse</figcaption></figure>
+    </section>
+
+    <section class="page" id="cap17">
+      <span class="label">Ficha 17</span>
+      <h2>17. Gabinete</h2>
+      <p class="lead">O gabinete é a caixa do computador de mesa. Dentro dele ficam várias peças internas, como placa-mãe, processador, memória RAM, armazenamento, fonte de alimentação e, em alguns casos, placa de vídeo.</p>
+<p>Um erro comum é chamar o gabinete de “CPU”. Tecnicamente, CPU é o processador, uma peça interna do computador. O gabinete é a estrutura completa que abriga várias peças.</p>
+<p>Embora muitas pessoas usem a palavra CPU para se referir ao gabinete, é importante conhecer a diferença correta.</p>
+    
+      <figure class="component-visual"><svg viewBox="0 0 560 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração de um gabinete"><rect width="560" height="240" rx="18" fill="#fff2db"/><rect x="214" y="28" width="132" height="184" rx="18" fill="#2f3642"/><rect x="232" y="48" width="96" height="90" rx="10" fill="#dcecff"/><circle cx="280" cy="166" r="8" fill="#0f645b"/><rect x="246" y="182" width="68" height="8" rx="4" fill="#778090"/><rect x="350" y="56" width="42" height="112" rx="10" fill="#ffffff" opacity=".5"/></svg><figcaption>Gabinete</figcaption></figure>
+    </section>
+
+    <section class="page" id="cap18">
+      <span class="label">Ficha 18</span>
+      <h2>18. Impressora</h2>
+      <p class="lead">A impressora transforma documentos digitais em folhas impressas. Pode imprimir textos, imagens, boletos, comprovantes, atividades, relatórios e fotografias.</p>
+<p>Existem impressoras a jato de tinta, laser, térmicas e multifuncionais. As multifuncionais podem imprimir, copiar e digitalizar documentos.</p>
+<p>Para funcionar, a impressora precisa estar conectada ao computador ou à rede, ter energia, papel, tinta ou toner e driver ou configuração adequada.</p>
+    
+      <figure class="component-visual"><svg viewBox="0 0 560 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração de uma impressora"><rect width="560" height="240" rx="18" fill="#fff1ee"/><rect x="155" y="64" width="250" height="116" rx="16" fill="#525e6f"/><rect x="186" y="38" width="188" height="50" rx="10" fill="#ffffff" stroke="#d8e4dc"/><rect x="180" y="110" width="200" height="54" rx="8" fill="#f8fbff"/><rect x="220" y="130" width="120" height="8" rx="4" fill="#9db3d7"/><rect x="220" y="146" width="90" height="8" rx="4" fill="#9db3d7"/><circle cx="366" cy="92" r="6" fill="#0f645b"/></svg><figcaption>Impressora</figcaption></figure>
+    </section>
+
+    <section class="page" id="cap19">
+      <span class="label">Ficha 19</span>
+      <h2>19. Caixas de som, fones, microfone e webcam</h2>
+      <p>As caixas de som e os fones permitem ouvir músicas, vídeos, aulas, chamadas, alertas e sons do sistema.</p>
+<p>O microfone permite gravar voz, participar de chamadas, enviar áudios e usar comandos de voz.</p>
+<p>A webcam permite capturar imagem para videochamadas, gravações e reuniões online.</p>
+<p>Esses dispositivos são importantes para aulas remotas, reuniões, comunicação digital e produção de conteúdo.</p>
+    
+      <figure class="component-visual"><svg viewBox="0 0 560 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração de caixas de som, fones, microfone e webcam"><defs><linearGradient id="headsetBand" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b86a36"/><stop offset="1" stop-color="#7c3f18"/></linearGradient><linearGradient id="earCup" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a75b2a"/><stop offset="1" stop-color="#6e3515"/></linearGradient><linearGradient id="pad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6d9bb"/><stop offset="1" stop-color="#d8ae86"/></linearGradient></defs><rect width="560" height="240" rx="18" fill="#eef4ff"/><rect x="52" y="64" width="52" height="118" rx="12" fill="#2f3642"/><circle cx="78" cy="100" r="15" fill="#dcecff"/><circle cx="78" cy="146" r="20" fill="#dcecff"/><rect x="456" y="64" width="52" height="118" rx="12" fill="#2f3642"/><circle cx="482" cy="100" r="15" fill="#dcecff"/><circle cx="482" cy="146" r="20" fill="#dcecff"/><path d="M188 122c0-44 38-78 92-78s92 34 92 78" fill="none" stroke="url(#headsetBand)" stroke-width="16" stroke-linecap="round"/><path d="M206 121c0-32 30-58 74-58s74 26 74 58" fill="none" stroke="#d8ae86" stroke-width="6" stroke-linecap="round" opacity="0.9"/><rect x="188" y="114" width="34" height="62" rx="17" fill="url(#earCup)"/><rect x="338" y="114" width="34" height="62" rx="17" fill="url(#earCup)"/><rect x="194" y="122" width="22" height="44" rx="11" fill="url(#pad)"/><rect x="344" y="122" width="22" height="44" rx="11" fill="url(#pad)"/><path d="M222 140c10 6 21 9 34 9" fill="none" stroke="#7c3f18" stroke-width="4" stroke-linecap="round" opacity="0.7"/><path d="M338 149c13 0 24-3 34-9" fill="none" stroke="#7c3f18" stroke-width="4" stroke-linecap="round" opacity="0.7"/><rect x="264" y="98" width="32" height="64" rx="16" fill="#0f645b"/><rect x="274" y="162" width="12" height="22" rx="6" fill="#0f645b"/><rect x="248" y="184" width="64" height="8" rx="4" fill="#0f645b"/><rect x="232" y="28" width="96" height="24" rx="12" fill="#ffffff" stroke="#d8e4dc"/><circle cx="280" cy="40" r="8" fill="#9db3d7"/></svg><figcaption>Caixas de som, fones, microfone e webcam</figcaption></figure>
+    </section>
+
+    <section class="page" id="cap20">
+      <span class="label">Ficha 20</span>
+      <h2>20. Partes internas do computador</h2>
+      <p class="lead">As partes internas ficam dentro do gabinete ou dentro do corpo do notebook. O usuário comum não precisa desmontar o computador, mas deve conhecer a função básica de cada componente.</p>
+<p>As principais partes internas são placa-mãe, processador, memória RAM, HD ou SSD, fonte de alimentação e placa de vídeo.</p>
+<p>Conhecer essas peças ajuda o aluno a entender desempenho, armazenamento, velocidade, travamentos e necessidades de manutenção.</p>
+    
+      <figure class="component-visual"><svg viewBox="0 0 560 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração resumida das partes internas do computador"><rect width="560" height="250" rx="18" fill="#fff8ef"/><rect x="94" y="36" width="372" height="178" rx="18" fill="#35506a"/><rect x="130" y="72" width="96" height="72" rx="10" fill="#f4c56b"/><rect x="246" y="60" width="78" height="28" rx="8" fill="#7dd3fc"/><rect x="246" y="96" width="78" height="28" rx="8" fill="#7dd3fc"/><rect x="344" y="68" width="86" height="50" rx="10" fill="#a7f3d0"/><rect x="130" y="160" width="128" height="28" rx="10" fill="#c4b5fd"/><rect x="278" y="150" width="152" height="42" rx="10" fill="#fca5a5"/><text x="178" y="113" text-anchor="middle" font-size="14" font-weight="700" fill="#5a3b00">CPU</text><text x="285" y="79" text-anchor="middle" font-size="12" font-weight="700" fill="#164e63">RAM</text><text x="285" y="115" text-anchor="middle" font-size="12" font-weight="700" fill="#164e63">RAM</text><text x="387" y="98" text-anchor="middle" font-size="13" font-weight="700" fill="#065f46">SSD/HD</text><text x="194" y="178" text-anchor="middle" font-size="13" font-weight="700" fill="#4c1d95">Fonte</text><text x="354" y="176" text-anchor="middle" font-size="13" font-weight="700" fill="#7f1d1d">Placa de vídeo</text></svg><figcaption>Partes internas</figcaption></figure>
+    </section>
+
+    <section class="page" id="cap21">
+      <span class="label">Ficha 21</span>
+      <h2>21. Placa-mãe</h2>
+      <p>A placa-mãe é uma das peças centrais do computador. Ela conecta e permite a comunicação entre os principais componentes.</p>
+<p>Nela são instalados ou conectados processador, memória RAM, armazenamento, placa de vídeo, portas USB, conexões de rede e outros circuitos.</p>
+<p>Uma boa analogia é imaginar a placa-mãe como uma avenida central por onde as informações circulam entre diferentes partes da cidade. Sem essa comunicação, as peças não funcionam em conjunto.</p>
+    
+      <figure class="component-visual"><svg viewBox="0 0 560 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração de uma placa-mãe"><rect width="560" height="250" rx="18" fill="#e9f6ef"/><rect x="116" y="28" width="328" height="194" rx="18" fill="#2d6a4f"/><rect x="150" y="62" width="96" height="78" rx="10" fill="#dcecff"/><rect x="272" y="56" width="120" height="20" rx="8" fill="#b7e4c7"/><rect x="272" y="86" width="120" height="20" rx="8" fill="#b7e4c7"/><rect x="272" y="116" width="120" height="20" rx="8" fill="#b7e4c7"/><rect x="152" y="154" width="92" height="36" rx="8" fill="#95d5b2"/><rect x="266" y="154" width="126" height="36" rx="8" fill="#95d5b2"/><g stroke="#d8f3dc" stroke-width="3"><path d="M246 100h26"/><path d="M216 140v18"/><path d="M320 136v18"/></g></svg><figcaption>Placa-mãe</figcaption></figure>
+    </section>
+
+    <section class="page" id="cap22">
+      <span class="label">Ficha 22</span>
+      <h2>22. Processador ou CPU</h2>
+      <p class="lead">O processador, também chamado de CPU, executa instruções e realiza cálculos. Ele é uma das peças mais importantes para o desempenho do computador.</p>
+<p>Quando o usuário abre um programa, digita um texto, acessa um site ou executa uma tarefa, o processador participa do trabalho interno necessário para que aquilo aconteça.</p>
+<p>Ele pode ser comparado a um “cérebro operacional”. Porém, essa analogia deve ser entendida com cuidado: o processador não pensa como uma pessoa; ele executa instruções em alta velocidade.</p>
+    
+      <figure class="component-visual"><svg viewBox="0 0 560 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração de um processador"><rect width="560" height="240" rx="18" fill="#eef4ff"/><g transform="translate(188,42)"><rect x="0" y="0" width="184" height="156" rx="18" fill="#f4c56b" stroke="#8f4d1f" stroke-width="4"/><rect x="34" y="28" width="116" height="100" rx="12" fill="#fff7e1"/><text x="92" y="86" text-anchor="middle" font-size="26" font-weight="700" fill="#8f4d1f">CPU</text><rect x="-10" y="18" width="16" height="8" rx="4" fill="#8f4d1f"/><rect x="178" y="18" width="16" height="8" rx="4" fill="#8f4d1f"/><rect x="-10" y="42" width="16" height="8" rx="4" fill="#8f4d1f"/><rect x="178" y="42" width="16" height="8" rx="4" fill="#8f4d1f"/><rect x="-10" y="66" width="16" height="8" rx="4" fill="#8f4d1f"/><rect x="178" y="66" width="16" height="8" rx="4" fill="#8f4d1f"/><rect x="-10" y="90" width="16" height="8" rx="4" fill="#8f4d1f"/><rect x="178" y="90" width="16" height="8" rx="4" fill="#8f4d1f"/><rect x="-10" y="114" width="16" height="8" rx="4" fill="#8f4d1f"/><rect x="178" y="114" width="16" height="8" rx="4" fill="#8f4d1f"/><rect x="-10" y="138" width="16" height="8" rx="4" fill="#8f4d1f"/><rect x="178" y="138" width="16" height="8" rx="4" fill="#8f4d1f"/><rect x="20" y="-10" width="8" height="16" rx="4" fill="#8f4d1f"/><rect x="20" y="150" width="8" height="16" rx="4" fill="#8f4d1f"/><rect x="48" y="-10" width="8" height="16" rx="4" fill="#8f4d1f"/><rect x="48" y="150" width="8" height="16" rx="4" fill="#8f4d1f"/><rect x="76" y="-10" width="8" height="16" rx="4" fill="#8f4d1f"/><rect x="76" y="150" width="8" height="16" rx="4" fill="#8f4d1f"/><rect x="104" y="-10" width="8" height="16" rx="4" fill="#8f4d1f"/><rect x="104" y="150" width="8" height="16" rx="4" fill="#8f4d1f"/><rect x="132" y="-10" width="8" height="16" rx="4" fill="#8f4d1f"/><rect x="132" y="150" width="8" height="16" rx="4" fill="#8f4d1f"/><rect x="160" y="-10" width="8" height="16" rx="4" fill="#8f4d1f"/><rect x="160" y="150" width="8" height="16" rx="4" fill="#8f4d1f"/></g></svg><figcaption>Processador</figcaption></figure>
+    </section>
+
+    <section class="page" id="cap23">
+      <span class="label">Ficha 23</span>
+      <h2>23. Memória RAM</h2>
+      <p class="lead">A memória RAM guarda temporariamente as informações que estão em uso no momento. Ela ajuda o computador a trabalhar com programas abertos, abas do navegador, documentos e tarefas em execução.</p>
+<p>A RAM pode ser comparada a uma mesa de trabalho. Se a mesa é pequena, cabem poucas coisas abertas ao mesmo tempo. Se é maior, é possível trabalhar com mais materiais simultaneamente.</p>
+<p>Quando o computador é desligado, o conteúdo temporário da memória RAM é apagado. Por isso, ela não substitui o armazenamento permanente.</p>
+    
+      <figure class="component-visual"><svg viewBox="0 0 560 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração de memória RAM"><rect width="560" height="220" rx="18" fill="#fff8ef"/><rect x="100" y="86" width="360" height="58" rx="12" fill="#2d6a4f"/><rect x="126" y="100" width="48" height="24" rx="5" fill="#d8f3dc"/><rect x="186" y="100" width="48" height="24" rx="5" fill="#d8f3dc"/><rect x="246" y="100" width="48" height="24" rx="5" fill="#d8f3dc"/><rect x="306" y="100" width="48" height="24" rx="5" fill="#d8f3dc"/><rect x="366" y="100" width="48" height="24" rx="5" fill="#d8f3dc"/><rect x="118" y="144" width="10" height="18" rx="3" fill="#f4c56b"/><rect x="138" y="144" width="10" height="18" rx="3" fill="#f4c56b"/><rect x="158" y="144" width="10" height="18" rx="3" fill="#f4c56b"/><rect x="178" y="144" width="10" height="18" rx="3" fill="#f4c56b"/><rect x="198" y="144" width="10" height="18" rx="3" fill="#f4c56b"/><rect x="218" y="144" width="10" height="18" rx="3" fill="#f4c56b"/><rect x="238" y="144" width="10" height="18" rx="3" fill="#f4c56b"/><rect x="258" y="144" width="10" height="18" rx="3" fill="#f4c56b"/><rect x="278" y="144" width="10" height="18" rx="3" fill="#f4c56b"/><rect x="298" y="144" width="10" height="18" rx="3" fill="#f4c56b"/><rect x="318" y="144" width="10" height="18" rx="3" fill="#f4c56b"/><rect x="338" y="144" width="10" height="18" rx="3" fill="#f4c56b"/><rect x="358" y="144" width="10" height="18" rx="3" fill="#f4c56b"/><rect x="378" y="144" width="10" height="18" rx="3" fill="#f4c56b"/><rect x="398" y="144" width="10" height="18" rx="3" fill="#f4c56b"/><rect x="418" y="144" width="10" height="18" rx="3" fill="#f4c56b"/></svg><figcaption>Memória RAM</figcaption></figure>
+    </section>
+
+    <section class="page" id="cap24">
+      <span class="label">Ficha 24</span>
+      <h2>24. HD e SSD</h2>
+      <p>HD e SSD são dispositivos de armazenamento. Eles guardam arquivos, fotos, vídeos, programas e o sistema operacional.</p>
+<p>O HD tradicional usa partes mecânicas. Ele costuma ter boa capacidade de armazenamento, mas é mais lento e mais sensível a impactos.</p>
+<p>O SSD usa memória eletrônica. Em geral, é mais rápido, silencioso e resistente, além de melhorar bastante a abertura do sistema e dos programas.</p>
+<p>Para o usuário iniciante, a diferença prática mais perceptível é a velocidade. Um computador com SSD costuma ligar mais rápido, abrir programas mais rapidamente e responder melhor.</p>
+    
+      <figure class="component-visual"><svg viewBox="0 0 560 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração comparativa entre HD e SSD"><defs><linearGradient id="hdCaseDetail" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fefefe"/><stop offset="1" stop-color="#dce3ea"/></linearGradient><linearGradient id="ssdCaseDetail" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f8fbfd"/><stop offset="1" stop-color="#cfd8e3"/></linearGradient><linearGradient id="ssdBoardDetail" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2fb572"/><stop offset="1" stop-color="#146c43"/></linearGradient><filter id="driveShadowDetail" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#23313f" flood-opacity="0.14"/></filter></defs><rect width="560" height="250" rx="18" fill="#fff1ee"/><g filter="url(#driveShadowDetail)"><rect x="62" y="40" width="184" height="162" rx="18" fill="url(#hdCaseDetail)" stroke="#b8c3cf" stroke-width="3"/><circle cx="156" cy="122" r="42" fill="#eef4fb" stroke="#9db3d7" stroke-width="4"/><circle cx="156" cy="122" r="26" fill="none" stroke="#c4d4e6" stroke-width="8"/><circle cx="156" cy="122" r="8" fill="#66788f"/><path d="M156 122l34-26" stroke="#8f4d1f" stroke-width="5" stroke-linecap="round"/><circle cx="192" cy="92" r="5" fill="#8f4d1f"/><rect x="90" y="60" width="30" height="10" rx="5" fill="#c7d2de"/><rect x="124" y="60" width="30" height="10" rx="5" fill="#c7d2de"/><rect x="188" y="60" width="30" height="10" rx="5" fill="#c7d2de"/><circle cx="84" cy="62" r="3" fill="#94a3b8"/><circle cx="224" cy="62" r="3" fill="#94a3b8"/><circle cx="84" cy="180" r="3" fill="#94a3b8"/><circle cx="224" cy="180" r="3" fill="#94a3b8"/><text x="154" y="225" text-anchor="middle" font-size="20" font-weight="700" fill="#8f4d1f">HD</text></g><g filter="url(#driveShadowDetail)"><rect x="314" y="40" width="184" height="162" rx="18" fill="url(#ssdCaseDetail)" stroke="#b8c3cf" stroke-width="3"/><rect x="334" y="62" width="144" height="94" rx="14" fill="url(#ssdBoardDetail)"/><rect x="352" y="82" width="42" height="22" rx="6" fill="#d8f3dc" opacity="0.9"/><rect x="402" y="82" width="52" height="22" rx="6" fill="#c7f1da" opacity="0.92"/><rect x="352" y="114" width="72" height="16" rx="6" fill="#0f5132" opacity="0.55"/><rect x="430" y="114" width="24" height="16" rx="6" fill="#0f5132" opacity="0.55"/><rect x="348" y="164" width="116" height="12" rx="4" fill="#caa54d"/><rect x="472" y="164" width="10" height="12" rx="2" fill="#e7c96b"/><circle cx="346" cy="72" r="3" fill="#e5edf5"/><circle cx="466" cy="72" r="3" fill="#e5edf5"/><circle cx="346" cy="146" r="3" fill="#e5edf5"/><circle cx="466" cy="146" r="3" fill="#e5edf5"/><text x="406" y="225" text-anchor="middle" font-size="20" font-weight="700" fill="#0f645b">SSD</text></g></svg><figcaption>HD e SSD</figcaption></figure>
+    </section>
+
+    <section class="page" id="cap25">
+      <span class="label">Ficha 25</span>
+      <h2>25. Fonte de alimentação</h2>
+      <p class="lead">A fonte de alimentação distribui energia elétrica para as peças do computador. Ela transforma a energia recebida da tomada em níveis adequados para os componentes internos.</p>
+<p>Uma fonte inadequada ou defeituosa pode causar desligamentos, falhas, instabilidade ou até danos às peças.</p>
+<p>Em notebooks, a função de alimentação envolve o carregador e a bateria. Em computadores de mesa, a fonte fica dentro do gabinete.</p>
+    
+      <figure class="component-visual"><svg viewBox="0 0 560 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração de uma fonte de alimentação"><rect width="560" height="230" rx="18" fill="#eef4ff"/><rect x="160" y="56" width="240" height="118" rx="18" fill="#495463"/><circle cx="240" cy="115" r="34" fill="#dcecff"/><circle cx="240" cy="115" r="10" fill="#495463"/><g stroke="#495463" stroke-width="4"><path d="M240 115l28 0"/><path d="M240 115l-28 0"/><path d="M240 115l28 18"/><path d="M240 115l-28 18"/><path d="M240 115l28 -18"/><path d="M240 115l-28 -18"/></g><rect x="308" y="84" width="58" height="18" rx="6" fill="#dcecff"/><rect x="308" y="112" width="58" height="18" rx="6" fill="#dcecff"/></svg><figcaption>Fonte de alimentação</figcaption></figure>
+    </section>
+
+    <section class="page" id="cap26">
+      <span class="label">Ficha 26</span>
+      <h2>26. Placa de vídeo</h2>
+      <p class="lead">A placa de vídeo ajuda a gerar imagens, vídeos, jogos e aplicações gráficas. Alguns computadores têm vídeo integrado ao processador ou à placa-mãe. Outros possuem placa de vídeo dedicada.</p>
+<p>Para tarefas simples, como navegação, digitação, planilhas e videoaulas, o vídeo integrado geralmente é suficiente. Para jogos, edição de vídeo, modelagem 3D e aplicações gráficas pesadas, uma placa de vídeo dedicada pode ser necessária.</p>
+    
+      <figure class="component-visual"><svg viewBox="0 0 560 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração de uma placa de vídeo"><rect width="560" height="240" rx="18" fill="#fff8ef"/><rect x="110" y="72" width="340" height="96" rx="14" fill="#cfd8e3" stroke="#8b97a7" stroke-width="3"/><circle cx="208" cy="120" r="28" fill="#eef4ff" stroke="#8fb3e1" stroke-width="4"/><circle cx="208" cy="120" r="10" fill="#8fb3e1"/><circle cx="314" cy="120" r="28" fill="#eef4ff" stroke="#8fb3e1" stroke-width="4"/><circle cx="314" cy="120" r="10" fill="#8fb3e1"/><rect x="394" y="94" width="32" height="52" rx="6" fill="#8f4d1f"/><rect x="92" y="100" width="18" height="40" rx="4" fill="#8b97a7"/></svg><figcaption>Placa de vídeo</figcaption></figure>
+    </section>
+
+    <section class="page" id="cap27">
+      <span class="label">Ficha 27</span>
+      <h2>27. Conexões e portas do computador</h2>
+      <p class="lead">As portas são entradas físicas usadas para conectar cabos e acessórios. Elas permitem ligar mouse, teclado, impressora, monitor, fone, microfone, cabo de rede, carregador, pendrive e outros dispositivos.</p>
+<p>As portas mais comuns são USB, HDMI, áudio, rede/Ethernet e energia.</p>
+<p>É importante observar o formato de cada conector. Nunca se deve forçar um cabo. Se ele não encaixa com facilidade, pode estar na posição errada ou pode não pertencer àquela entrada.</p>
+    
+      <figure class="component-visual"><svg viewBox="0 0 560 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração de conexões e portas do computador"><rect width="560" height="260" rx="18" fill="#e9f6ef"/><rect x="76" y="42" width="408" height="160" rx="18" fill="#3b4656"/><rect x="118" y="88" width="74" height="34" rx="8" fill="#dcecff"/><text x="155" y="111" text-anchor="middle" font-size="14" font-weight="700" fill="#2d4f80">USB</text><rect x="214" y="82" width="82" height="24" rx="8" fill="#fff2db"/><text x="255" y="99" text-anchor="middle" font-size="13" font-weight="700" fill="#8f4d1f">HDMI</text><circle cx="338" cy="96" r="14" fill="#ffd2d2"/><text x="338" y="100" text-anchor="middle" font-size="11" font-weight="700" fill="#8f1f1f">Áudio</text><rect x="378" y="82" width="58" height="38" rx="8" fill="#eef4ff"/><text x="407" y="106" text-anchor="middle" font-size="11" font-weight="700" fill="#2d4f80">LAN</text><rect x="166" y="146" width="66" height="22" rx="8" fill="#dfe7f1"/><text x="199" y="161" text-anchor="middle" font-size="12" font-weight="700" fill="#495463">Energia</text></svg><figcaption>Portas do computador</figcaption></figure>
+    </section>
+
+    <section class="page" id="cap28">
+      <span class="label">Ficha 28</span>
+      <h2>28. Porta USB</h2>
+      <p class="lead">A porta USB é uma das conexões mais usadas. Ela serve para conectar pendrive, mouse, teclado, impressora, cabo de celular, HD externo, webcam, adaptadores e vários acessórios.</p>
+<p>Existem diferentes tipos e versões de USB. Algumas portas são maiores, outras menores, como USB-C. Algumas transferem dados mais rapidamente do que outras.</p>
+<p>Para o aluno iniciante, o mais importante é saber que a porta USB é usada para conectar muitos dispositivos externos.</p>
+    
+      <figure class="component-visual"><svg viewBox="0 0 560 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração de conectores USB"><rect width="560" height="220" rx="18" fill="#eef4ff"/><rect x="96" y="88" width="136" height="36" rx="12" fill="#ffffff" stroke="#c8d7ef"/><rect x="232" y="96" width="56" height="20" rx="4" fill="#8fb3e1"/><text x="164" y="154" text-anchor="middle" font-size="18" font-weight="700" fill="#2d4f80">USB-A</text><path d="M350 86h60c16 0 28 12 28 28s-12 28-28 28h-60z" fill="#ffffff" stroke="#c8d7ef"/><rect x="338" y="96" width="28" height="20" rx="8" fill="#8fb3e1"/><text x="388" y="154" text-anchor="middle" font-size="18" font-weight="700" fill="#2d4f80">USB-C</text></svg><figcaption>USB</figcaption></figure>
+    </section>
+
+    <section class="page" id="cap29">
+      <span class="label">Ficha 29</span>
+      <h2>29. Porta HDMI</h2>
+      <p>A porta HDMI transmite imagem e som para monitores, televisores e projetores.</p>
+<p>Ela é muito usada em apresentações, aulas, reuniões e conexão do notebook a uma TV.</p>
+<p>Quando uma pessoa conecta um notebook a um projetor usando HDMI, o computador envia a imagem da tela para o equipamento externo.</p>
+    
+      <figure class="component-visual"><svg viewBox="0 0 560 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração de conector HDMI"><rect width="560" height="220" rx="18" fill="#fff8ef"/><path d="M122 98h170l40 24-40 24H122l-28-24z" fill="#2f3642"/><rect x="292" y="106" width="88" height="32" rx="8" fill="#dcecff"/><rect x="380" y="112" width="62" height="20" rx="6" fill="#8fb3e1"/><text x="282" y="72" text-anchor="middle" font-size="22" font-weight="700" fill="#8f4d1f">HDMI</text></svg><figcaption>HDMI</figcaption></figure>
+    </section>
+
+    <section class="page" id="cap30">
+      <span class="label">Ficha 30</span>
+      <h2>30. Entrada de áudio</h2>
+      <p>A entrada ou saída de áudio permite conectar fones de ouvido, microfones ou caixas de som.</p>
+<p>Alguns computadores possuem conexões separadas para fone e microfone. Outros usam uma única conexão combinada.</p>
+<p>Em notebooks modernos e celulares, também pode haver uso de Bluetooth ou adaptadores para áudio.</p>
+    
+      <figure class="component-visual"><svg viewBox="0 0 560 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração de entrada de áudio e plugue P2"><defs><linearGradient id="audioPanel" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff8f6"/><stop offset="1" stop-color="#f1d9d1"/></linearGradient><linearGradient id="metal" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f8fafc"/><stop offset="1" stop-color="#a8b4c0"/></linearGradient><linearGradient id="jackRing" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f59e0b"/><stop offset="1" stop-color="#8f4d1f"/></linearGradient><linearGradient id="cableBody" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1f7d71"/><stop offset="1" stop-color="#0f645b"/></linearGradient></defs><rect width="560" height="220" rx="18" fill="#fff1ee"/><rect x="72" y="46" width="176" height="128" rx="22" fill="url(#audioPanel)" stroke="#e5bcb0" stroke-width="4"/><circle cx="160" cy="110" r="40" fill="#fffdfb" stroke="#d7a89a" stroke-width="5"/><circle cx="160" cy="110" r="22" fill="#24303b"/><circle cx="160" cy="110" r="10" fill="#0b1116"/><circle cx="160" cy="110" r="31" fill="none" stroke="url(#jackRing)" stroke-width="6" opacity="0.95"/><circle cx="118" cy="78" r="4" fill="#f3c7ba"/><circle cx="202" cy="78" r="4" fill="#f3c7ba"/><circle cx="118" cy="142" r="4" fill="#f3c7ba"/><circle cx="202" cy="142" r="4" fill="#f3c7ba"/><path d="M300 110h54" stroke="#0f645b" stroke-width="14" stroke-linecap="round"/><rect x="354" y="98" width="36" height="24" rx="10" fill="#2c3a46"/><rect x="390" y="96" width="58" height="28" rx="10" fill="url(#metal)" stroke="#94a3b8" stroke-width="2"/><rect x="404" y="96" width="8" height="28" rx="2" fill="#2c3a46"/><rect x="422" y="96" width="8" height="28" rx="2" fill="#2c3a46"/><path d="M448 110h42" stroke="url(#metal)" stroke-width="12" stroke-linecap="round"/><rect x="488" y="103" width="14" height="14" rx="4" fill="#b45309"/><path d="M300 110c-16 0-26 14-26 30v14" fill="none" stroke="url(#cableBody)" stroke-width="10" stroke-linecap="round"/><path d="M274 154v18" stroke="url(#cableBody)" stroke-width="8" stroke-linecap="round"/></svg><figcaption>Áudio</figcaption></figure>
+    </section>
+
+    <section class="page" id="cap31">
+      <span class="label">Ficha 31</span>
+      <h2>31. Porta de rede ou Ethernet</h2>
+      <p>A porta de rede, também chamada de Ethernet, permite conectar o computador à internet por cabo.</p>
+<p>A conexão por cabo costuma ser mais estável do que o Wi-Fi, especialmente em ambientes com muitas pessoas conectadas ou sinal sem fio fraco.</p>
+<p>Essa porta é comum em desktops, roteadores, switches e alguns notebooks. Em notebooks mais finos, pode ser necessário adaptador.</p>
+    
+      <figure class="component-visual"><svg viewBox="0 0 560 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração de porta Ethernet"><rect width="560" height="220" rx="18" fill="#e9f6ef"/><rect x="170" y="58" width="220" height="100" rx="16" fill="#ffffff" stroke="#cce5d7" stroke-width="4"/><rect x="218" y="82" width="124" height="52" rx="8" fill="#dcecff"/><rect x="248" y="64" width="64" height="18" rx="8" fill="#8fb3e1"/><rect x="230" y="94" width="14" height="22" rx="3" fill="#2d4f80"/><rect x="252" y="94" width="14" height="22" rx="3" fill="#2d4f80"/><rect x="274" y="94" width="14" height="22" rx="3" fill="#2d4f80"/><rect x="296" y="94" width="14" height="22" rx="3" fill="#2d4f80"/><rect x="318" y="94" width="14" height="22" rx="3" fill="#2d4f80"/></svg><figcaption>Ethernet</figcaption></figure>
+    </section>
+
+    <section class="page" id="cap32">
+      <span class="label">Ficha 32</span>
+      <h2>32. Entrada de energia</h2>
+      <p>A entrada de energia permite ligar o computador à tomada ou conectar o carregador do notebook.</p>
+<p>No desktop, o cabo de energia normalmente é conectado à fonte de alimentação, na parte traseira do gabinete.</p>
+<p>No notebook, o carregador alimenta o equipamento e recarrega a bateria.</p>
+<p>O usuário deve evitar puxar o cabo pelo fio. O correto é segurar pelo conector.</p>
+    
+      <figure class="component-visual"><svg viewBox="0 0 560 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração de entrada de energia e carregador"><rect width="560" height="220" rx="18" fill="#eef4ff"/><rect x="120" y="86" width="90" height="48" rx="10" fill="#ffffff" stroke="#c8d7ef" stroke-width="4"/><rect x="210" y="98" width="36" height="24" rx="6" fill="#8fb3e1"/><path d="M246 110h82" stroke="#8fb3e1" stroke-width="10" stroke-linecap="round"/><rect x="328" y="84" width="86" height="52" rx="12" fill="#2f3642"/><rect x="414" y="100" width="34" height="20" rx="6" fill="#f4c56b"/><path d="M168 84V60m-16 24V60" stroke="#8f4d1f" stroke-width="6" stroke-linecap="round"/></svg><figcaption>Energia</figcaption></figure>
+    </section>
+
+    <section class="page" id="cap33">
+      <span class="label">Ficha 33</span>
+      <h2>33. Uso básico do computador</h2>
+      <p class="lead">Para uma pessoa iniciante, o primeiro passo é dominar ações simples: ligar, desligar, fazer login, usar mouse e teclado, abrir programas, salvar documentos, organizar arquivos e fechar janelas.</p>
+<p>Essas ações formam a base para aprender internet, edição de textos, planilhas, apresentações, e-mail, armazenamento em nuvem e outras ferramentas digitais.</p>
+<p>A aprendizagem deve ser gradual. Primeiro, o aluno aprende a identificar partes do equipamento. Depois, aprende a operar o sistema. Em seguida, passa a usar programas e serviços.</p>
+    </section>
+
+    <section class="page" id="cap34">
+      <span class="label">Ficha 34</span>
+      <h2>34. Como ligar o computador</h2>
+      <p class="lead">Antes de ligar o computador, verifique se o cabo de energia está conectado e se a tomada, filtro de linha ou estabilizador está funcionando.</p>
+<p>No desktop, ligue o monitor se ele tiver botão próprio.</p>
+<p>Pressione o botão de energia apenas uma vez. Evite apertar várias vezes seguidas, pois isso pode causar confusão no processo de inicialização.</p>
+<p>Aguarde o sistema carregar. Alguns computadores demoram mais, principalmente se forem antigos, se tiverem muitos programas iniciando ou se usarem HD em vez de SSD.</p>
+<p>Se o sistema pedir senha, digite com cuidado. Não compartilhe sua senha sem necessidade.</p>
+    </section>
+
+    <section class="page" id="cap35">
+      <span class="label">Ficha 35</span>
+      <h2>35. Como desligar corretamente</h2>
+      <p>O computador deve ser desligado pelo sistema, e não simplesmente retirando o cabo da tomada.</p>
+<p>Antes de desligar, salve os documentos abertos. Depois, feche os programas. Em seguida, acesse o menu de energia do sistema e escolha a opção “Desligar”.</p>
+<p>Aguarde o encerramento completo. Retirar o cabo ou desligar diretamente na tomada pode causar perda de arquivos, falhas no sistema ou problemas de inicialização.</p>
+<p>Em notebooks, também é importante observar a bateria. Se o equipamento estiver com pouca carga, conecte o carregador antes de continuar trabalhando.</p>
+    </section>
+
+    <section class="page" id="cap36">
+      <span class="label">Ficha 36</span>
+      <h2>36. Arquivos, pastas e programas</h2>
+      <p class="lead">Um <strong>arquivo</strong> é um item digital salvo no computador, celular, pendrive ou nuvem. Pode ser um texto, foto, vídeo, música, planilha, apresentação, PDF ou outro tipo de documento.</p>
+<p>Uma <strong>pasta</strong> é um local usado para organizar arquivos. Ela funciona como uma gaveta digital. Dentro de uma pasta, é possível guardar vários arquivos e também criar outras pastas.</p>
+<p>Um <strong>programa</strong> é uma ferramenta que executa tarefas. Um editor de texto permite escrever documentos. Um navegador permite acessar sites. Uma planilha permite organizar dados e fazer cálculos. Um reprodutor de mídia permite assistir vídeos ou ouvir músicas.</p>
+    </section>
+
+    <section class="page" id="cap37">
+      <span class="label">Ficha 37</span>
+      <h2>37. Organização de arquivos</h2>
+      <p class="lead">Organizar arquivos é uma habilidade essencial da informática básica. Um computador desorganizado dificulta a localização de documentos e aumenta o risco de apagar ou perder informações.</p>
+<p>O ideal é criar pastas com nomes claros. Exemplos:</p>
+<p>“Documentos Pessoais”</p>
+<p>“Aulas de Informática”</p>
+<p>“Fotos da Família”</p>
+<p>“Comprovantes”</p>
+<p>“Trabalhos Escolares”</p>
+<p>“Currículos”</p>
+<p>“Planilhas Financeiras”</p>
+<p>Os arquivos também devem ter nomes compreensíveis. Em vez de “arquivo1”, “novo”, “final” ou “documento sem título”, prefira nomes como “Curriculo_Ravell_2026”, “Atividade_Excel_Aula_03” ou “Comprovante_Internet_Abril_2026”.</p>
+    </section>
+
+    <section class="page" id="cap38">
+      <span class="label">Ficha 38</span>
+      <h2>38. Cuidados físicos com o computador</h2>
+      <p class="lead">O uso correto do computador envolve cuidados físicos. Esses cuidados aumentam a vida útil do equipamento e reduzem riscos de defeitos.</p>
+<p>Mantenha líquidos longe do teclado, notebook e gabinete. Derramar água, café ou refrigerante pode danificar componentes.</p>
+<p>Evite comer sobre o teclado, pois migalhas e sujeira podem entrar entre as teclas.</p>
+<p>Não cubra as saídas de ventilação, principalmente em notebooks. O superaquecimento pode causar travamentos e reduzir a vida útil do equipamento.</p>
+<p>Não puxe cabos pelo fio. Segure sempre pelo conector.</p>
+<p>Evite quedas, pancadas e transporte inadequado.</p>
+<p>Limpe o equipamento com pano seco ou levemente umedecido. Não jogue produtos diretamente na tela, teclado ou gabinete.</p>
+    </section>
+
+    <section class="page" id="cap39">
+      <span class="label">Ficha 39</span>
+      <h2>39. Cuidados digitais</h2>
+      <p class="lead">Os cuidados digitais são tão importantes quanto os cuidados físicos. Eles ajudam a proteger arquivos, contas, senhas e informações pessoais.</p>
+<p>Use senhas fortes. Evite senhas como 123456, data de nascimento, nome próprio ou sequências fáceis.</p>
+<p>Desconfie de links estranhos, mensagens urgentes, promessas de prêmio, boletos suspeitos e anexos desconhecidos.</p>
+<p>Não instale programas de fontes desconhecidas.</p>
+<p>Mantenha o sistema e os programas atualizados quando possível.</p>
+<p>Faça backup dos arquivos importantes.</p>
+<p>Evite usar computadores públicos para acessar banco, e-mail pessoal ou contas sensíveis.</p>
+<p>Ao usar computador compartilhado, saia das contas antes de encerrar o uso.</p>
+    </section>
+
+    <section class="page" id="cap40">
+      <span class="label">Ficha 40</span>
+      <h2>40. Senhas</h2>
+      <p>A senha é uma das principais formas de proteger contas e dispositivos. Uma senha fraca facilita invasões e acessos indevidos.</p>
+<p>Uma senha forte deve ser longa, difícil de adivinhar e diferente para cada serviço importante.</p>
+<p>Não é recomendável usar a mesma senha em e-mail, banco, redes sociais e plataformas de estudo. Se uma senha for descoberta, todas as contas podem ficar em risco.</p>
+<p>Também é importante não compartilhar senhas por mensagem, papel, ligação ou com pessoas desconhecidas.</p>
+    </section>
+
+    <section class="page" id="cap41">
+      <span class="label">Ficha 41</span>
+      <h2>41. Golpes digitais</h2>
+      <p>Golpes digitais são tentativas de enganar o usuário para roubar dados, dinheiro ou acesso a contas.</p>
+<p>Mensagens falsas podem se passar por bancos, lojas, serviços de entrega, órgãos públicos ou pessoas conhecidas.</p>
+<p>Um golpe comum é pedir que o usuário clique em um link e digite senha, código de banco, CPF ou dados do cartão.</p>
+<p>Bancos e instituições sérias normalmente não pedem senha completa por mensagem.</p>
+<p>Ao receber uma mensagem suspeita, o aluno deve evitar clicar, não fornecer dados e procurar orientação.</p>
+    </section>
+
+    <section class="page" id="cap42">
+      <span class="label">Ficha 42</span>
+      <h2>42. Backup</h2>
+      <p class="lead">Backup é uma cópia de segurança dos arquivos importantes. Ele serve para recuperar dados em caso de perda, roubo, defeito, exclusão acidental ou ataque digital.</p>
+<p>O backup pode ser feito em pendrive, HD externo, outro computador ou serviço de nuvem.</p>
+<p>Arquivos importantes, como documentos pessoais, fotos, trabalhos, comprovantes e materiais profissionais, não devem ficar em apenas um lugar.</p>
+<p>Uma boa prática é manter mais de uma cópia dos arquivos essenciais.</p>
+    </section>
+
+    <section class="page" id="cap43">
+      <span class="label">Ficha 43</span>
+      <h2>43. Atualizações</h2>
+      <p class="lead">Atualizações são melhorias e correções feitas em sistemas e programas. Elas podem corrigir falhas, melhorar segurança, ajustar erros e adicionar recursos.</p>
+<p>Embora algumas atualizações possam demorar, elas são importantes para manter o computador mais protegido.</p>
+<p>Sempre que possível, o aluno deve manter sistema operacional, navegador, antivírus e programas principais atualizados.</p>
+    </section>
+
+    <section class="page" id="cap44">
+      <span class="label">Ficha 44</span>
+      <h2>44. Atividade prática de observação</h2>
+      <p class="lead">Observe um computador real e identifique:</p><div class="exercise"><ol><li>O botão de ligar.</li><li>O monitor.</li><li>O teclado.</li><li>O mouse.</li><li>As entradas USB.</li><li>O cabo de energia.</li><li>A saída de áudio.</li><li>A porta HDMI, se houver.</li><li>A porta de rede, se houver.</li></ol></div><div class="note"><span class="label">Orientação</span><p>O objetivo dessa atividade é relacionar o conteúdo teórico com o equipamento físico.</p></div>
+    </section>
+
+    <section class="page" id="cap45">
+      <span class="label">Ficha 45</span>
+      <h2>45. Atividade prática com arquivos e pastas</h2>
+      <p class="lead">Crie uma pasta chamada “Aula de Informática”.</p><div class="exercise"><ol><li>Dentro dela, crie um arquivo de texto com seu nome e a data.</li><li>Depois, renomeie o arquivo para “Atividade_01_Informática”.</li><li>Crie uma segunda pasta chamada “Exercícios”.</li><li>Mova o arquivo para dentro da pasta “Exercícios”.</li></ol></div><div class="note"><span class="label">Orientação</span><p>Essa atividade ajuda o aluno a praticar organização digital.</p></div>
+    </section>
+
+    <section class="page" id="cap46">
+      <span class="label">Ficha 46</span>
+      <h2>46. Atividade de classificação: hardware ou software</h2>
+      <p class="lead">Classifique cada item como hardware ou software:</p><div class="exercise"><ol><li>Teclado.</li><li>Navegador.</li><li>Monitor.</li><li>Editor de texto.</li><li>Memória RAM.</li><li>Sistema operacional.</li><li>Mouse.</li><li>Impressora.</li><li>Antivírus.</li><li>Processador.</li></ol></div><div class="note"><span class="label">Orientação</span><p>Resposta esperada: teclado, monitor, memória RAM, mouse, impressora e processador são hardware. Navegador, editor de texto, sistema operacional e antivírus são software.</p></div>
+    </section>
+
+    <section class="page" id="cap47">
+      <span class="label">Ficha 47</span>
+      <h2>47. Atividade de reflexão</h2>
+      <p class="lead">Explique, com suas palavras, o que é informática.</p><div class="exercise"><ol><li>Cite três situações do cotidiano em que você usa informática.</li><li>Explique a diferença entre memória RAM e armazenamento usando a analogia da mesa de trabalho e do armário.</li><li>Liste três cuidados físicos e três cuidados digitais que uma pessoa deve ter ao usar um computador.</li><li>Explique por que não se deve desligar o computador diretamente da tomada.</li></ol></div>
+    </section>
+
+    <section class="page" id="cap48">
+      <span class="label">Ficha 48</span>
+      <h2>48. Checklist de aprendizagem</h2>
+      <p class="lead">O aluno deve ser capaz de:</p><ul class="checklist"><li>Explicar o que é informática.</li><li>Citar exemplos de informática no cotidiano.</li><li>Explicar o que é um computador.</li><li>Reconhecer as etapas de entrada, processamento, armazenamento e saída.</li><li>Diferenciar hardware e software.</li><li>Identificar monitor, teclado, mouse, gabinete e impressora.</li><li>Explicar a função básica da placa-mãe.</li><li>Explicar a função do processador.</li><li>Diferenciar memória RAM de armazenamento.</li><li>Diferenciar HD de SSD.</li><li>Reconhecer portas USB, HDMI, áudio, rede e energia.</li><li>Ligar o computador corretamente.</li><li>Desligar o computador corretamente.</li><li>Criar pastas.</li><li>Salvar arquivos.</li><li>Organizar documentos digitais.</li><li>Usar senhas com cuidado.</li><li>Reconhecer mensagens suspeitas.</li><li>Fazer backup de arquivos importantes.</li><li>Adotar cuidados físicos com o equipamento.</li></ul>
+    </section>
+
+    <section class="page" id="cap49">
+      <span class="label">Ficha 49</span>
+      <h2>49. Questões para revisão</h2>
+      <ol><li>O que é informática?</li><li>Por que a informática está presente no cotidiano?</li><li>O que é um computador?</li><li>Quais são as quatro ações fundamentais de um computador?</li><li>O que significa entrada de dados?</li><li>O que significa processamento?</li><li>O que significa armazenamento?</li><li>O que significa saída de dados?</li><li>O que é hardware?</li><li>O que é software?</li><li>Cite cinco exemplos de hardware.</li><li>Cite cinco exemplos de software.</li><li>Qual é a função do monitor?</li><li>Qual é a função do teclado?</li><li>Qual é a função do mouse?</li><li>Qual é a diferença entre gabinete e CPU?</li><li>O que é processador?</li><li>Para que serve a memória RAM?</li><li>Para que servem HD e SSD?</li><li>Qual é a diferença prática entre HD e SSD?</li><li>Para que serve a placa-mãe?</li><li>Para que serve a fonte de alimentação?</li><li>Para que serve uma porta USB?</li><li>Para que serve uma porta HDMI?</li><li>Por que não devemos forçar cabos nas entradas?</li><li>Como ligar corretamente um computador?</li><li>Como desligar corretamente um computador?</li><li>O que é um arquivo?</li><li>O que é uma pasta?</li><li>O que é um programa?</li><li>O que é backup?</li><li>Por que as senhas são importantes?</li><li>O que são golpes digitais?</li><li>Quais cuidados físicos devemos ter com o computador?</li><li>Quais cuidados digitais devemos ter ao usar a internet?</li></ol>
+    </section>
+
+    <section class="page" id="cap50">
+      <span class="label">Ficha 50</span>
+      <h2>50. Resumo para memorização</h2>
+      <div class="summary-box"><h3>Resumo para fixação</h3><ul><li>Informática é o uso de computadores e sistemas digitais para tratar informações.</li><li>O computador recebe dados, processa, armazena e apresenta resultados.</li><li>Entrada é quando o usuário fornece informações.</li><li>Processamento é quando o computador executa instruções.</li><li>Armazenamento é quando os dados são guardados.</li><li>Saída é quando o resultado aparece para o usuário.</li><li>Hardware é a parte física do computador.</li><li>Software é a parte lógica, formada por programas e sistemas.</li><li>Monitor, teclado, mouse, gabinete e impressora são exemplos de hardware.</li><li>Windows, navegador, editor de texto e antivírus são exemplos de software.</li><li>CPU é o processador, não o gabinete inteiro.</li><li>A memória RAM funciona como uma mesa de trabalho temporária.</li><li>HD e SSD funcionam como armários digitais para guardar arquivos.</li><li>SSD costuma ser mais rápido que HD.</li><li>USB conecta vários acessórios.</li><li>HDMI transmite imagem e som.</li><li>O computador deve ser desligado pelo sistema.</li><li>Arquivos devem ser organizados em pastas.</li><li>Senhas devem ser fortes.</li><li>Links suspeitos devem ser evitados.</li><li>Arquivos importantes precisam de backup.</li></ul></div>
+    </section>
+
+    <section class="page" id="cap51">
+      <span class="label">Ficha 51</span>
+      <h2>51. Glossário básico</h2>
+      <div class="terms"><div class="term"><strong>Aplicativo</strong><p>programa usado para realizar uma tarefa específica, como conversar, editar texto, assistir vídeos ou acessar banco.</p></div><div class="term"><strong>Arquivo</strong><p>documento digital salvo no computador, celular, pendrive ou nuvem. Pode ser texto, foto, vídeo, planilha, apresentação ou PDF.</p></div><div class="term"><strong>Backup</strong><p>cópia de segurança dos arquivos importantes.</p></div><div class="term"><strong>Computador</strong><p>máquina eletrônica programável que recebe, processa, armazena e apresenta informações.</p></div><div class="term"><strong>CPU</strong><p>unidade central de processamento; nome técnico do processador.</p></div><div class="term"><strong>Desktop</strong><p>pode significar computador de mesa ou área de trabalho do sistema, dependendo do contexto.</p></div><div class="term"><strong>Download</strong><p>ato de baixar um arquivo da internet para o dispositivo.</p></div><div class="term"><strong>Gabinete</strong><p>caixa do computador de mesa onde ficam várias peças internas.</p></div><div class="term"><strong>Hardware</strong><p>parte física do computador.</p></div><div class="term"><strong>HD</strong><p>dispositivo de armazenamento com partes mecânicas.</p></div><div class="term"><strong>Impressora</strong><p>equipamento que imprime documentos digitais em papel.</p></div><div class="term"><strong>Informática</strong><p>área que estuda o uso de computadores e sistemas digitais para tratar informações.</p></div><div class="term"><strong>Internet</strong><p>rede mundial que conecta computadores, celulares, servidores, sites e serviços digitais.</p></div><div class="term"><strong>Memória RAM</strong><p>memória temporária usada para manter em funcionamento o que está aberto no momento.</p></div><div class="term"><strong>Monitor</strong><p>tela do computador.</p></div><div class="term"><strong>Mouse</strong><p>dispositivo usado para mover o ponteiro, clicar, selecionar e arrastar objetos.</p></div><div class="term"><strong>Navegador</strong><p>programa usado para acessar sites, como Chrome, Edge, Firefox e Safari.</p></div><div class="term"><strong>Notebook</strong><p>computador portátil com tela, teclado, touchpad e bateria integrados.</p></div><div class="term"><strong>Pasta</strong><p>local usado para organizar arquivos.</p></div><div class="term"><strong>Periférico</strong><p>equipamento conectado ao computador, como impressora, mouse, teclado, webcam ou caixa de som.</p></div><div class="term"><strong>Placa-mãe</strong><p>placa principal que conecta os componentes internos.</p></div><div class="term"><strong>Processador</strong><p>peça que executa instruções e influencia o desempenho do computador.</p></div><div class="term"><strong>Programa</strong><p>software usado para executar uma tarefa.</p></div><div class="term"><strong>Senha</strong><p>código usado para proteger acesso a contas, sistemas e dispositivos.</p></div><div class="term"><strong>Sistema operacional</strong><p>programa principal que organiza o funcionamento do computador, como Windows, Linux, macOS, Android ou iOS.</p></div><div class="term"><strong>Software</strong><p>programas e sistemas que fazem o computador executar tarefas.</p></div><div class="term"><strong>SSD</strong><p>dispositivo de armazenamento eletrônico, geralmente mais rápido que o HD.</p></div><div class="term"><strong>Teclado</strong><p>dispositivo usado para digitar letras, números, símbolos e comandos.</p></div><div class="term"><strong>Upload</strong><p>envio de um arquivo do dispositivo para a internet ou nuvem.</p></div><div class="term"><strong>USB</strong><p>tipo de conexão usada para pendrive, teclado, mouse, impressora, cabo de celular e outros acessórios.</p></div></div>
+    </section>
+
+    <section class="page" id="cap52">
+      <span class="label">Ficha 52</span>
+      <h2>52. Conclusão da ficha</h2>
+      <p class="lead">A informática básica é a porta de entrada para a vida digital. Ela permite que o aluno compreenda o funcionamento geral dos computadores, reconheça seus componentes, utilize programas, organize arquivos e adote cuidados de segurança.</p>
+<p>O ponto mais importante é compreender que o computador não é um objeto misterioso. Ele é uma ferramenta formada por peças físicas e programas, capaz de receber informações, processá-las, armazená-las e apresentar resultados.</p>
+<p>Quando o aluno entende a diferença entre hardware e software, reconhece as partes externas e internas, aprende a organizar arquivos e adota cuidados físicos e digitais, ele passa a usar a tecnologia com mais autonomia.</p>
+<p>Dominar informática básica é essencial para avançar em temas como internet, e-mail, edição de textos, planilhas, apresentações, armazenamento em nuvem, segurança digital, inteligência artificial e ferramentas profissionais. A base construída aqui servirá para todas as próximas etapas da aprendizagem tecnológica.</p>
+    </section>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      const stage = document.getElementById("viewerStage");
+      const book = document.getElementById("bookPages");
+      const pages = Array.from(book.querySelectorAll(".page"));
+      const sidebarLinks = Array.from(document.querySelectorAll("#sidebarNav a"));
+      const topLinks = Array.from(document.querySelectorAll(".topbar .nav a"));
+      const prevBtn = document.getElementById("prevPage");
+      const nextBtn = document.getElementById("nextPage");
+      const status = document.getElementById("viewerStatus");
+      const scalePreference = document.getElementById("scalePreference");
+      const scaleNote = document.getElementById("scaleNote");
+
+      if (!stage || pages.length === 0 || !prevBtn || !nextBtn || !status) {
+        return;
+      }
+
+      function prepareContentWrappers() {
+        pages.forEach((page) => {
+          if (page.querySelector(":scope > .page-content")) {
+            return;
+          }
+          const wrapper = document.createElement("div");
+          wrapper.className = "page-content";
+          while (page.firstChild) {
+            wrapper.appendChild(page.firstChild);
+          }
+          page.appendChild(wrapper);
+        });
+      }
+
+      function isDesktopViewer() {
+        return window.matchMedia("(min-width: 1081px)").matches;
+      }
+
+      let activeIndex = 0;
+
+      function indexFromHash() {
+        const hash = window.location.hash.replace("#", "");
+        if (!hash) {
+          return 0;
+        }
+        const found = pages.findIndex((page) => page.id === hash);
+        return found >= 0 ? found : 0;
+      }
+
+      function fitActivePage() {
+        if (!isDesktopViewer()) {
+          stage.classList.remove("is-scaled");
+          stage.classList.remove("mode-reading", "mode-fit");
+          return;
+        }
+
+        const page = pages[activeIndex];
+        const content = page.querySelector(":scope > .page-content");
+        if (!content) {
+          return;
+        }
+
+        const preference = scalePreference ? scalePreference.value : "reading";
+        stage.classList.toggle("mode-reading", preference === "reading");
+        stage.classList.toggle("mode-fit", preference === "fit");
+        content.classList.toggle("tight-mode", preference === "fit");
+
+        if (preference === "reading") {
+          content.style.transform = "none";
+          content.style.width = "auto";
+          stage.classList.remove("is-scaled");
+          if (scaleNote) {
+            scaleNote.textContent = "Modo leitura · rolagem ativa";
+          }
+          return;
+        }
+
+        content.style.transform = "scale(1)";
+        content.style.width = "100%";
+
+        const paddingAllowance = 4;
+        const availableW = page.clientWidth - paddingAllowance;
+        const availableH = page.clientHeight - paddingAllowance;
+        const naturalW = content.scrollWidth;
+        const naturalH = content.scrollHeight;
+
+        if (!naturalW || !naturalH) {
+          return;
+        }
+
+        const ratioW = availableW / naturalW;
+        const ratioH = availableH / naturalH;
+        let scale = Math.min(1, ratioW, ratioH);
+
+        const minScale = 0.56;
+        scale = Math.max(minScale, scale);
+
+        // Guarantee fit even after minScale clamp.
+        const forcedFit = Math.min(1, ratioW, ratioH);
+        if (scale > forcedFit) {
+          scale = forcedFit;
+        }
+
+        content.style.transform = "scale(" + scale + ")";
+        content.style.width = (100 / scale) + "%";
+        stage.classList.toggle("is-scaled", scale < 0.999);
+
+        if (scaleNote) {
+          const percent = Math.round(scale * 100);
+          const modeName = "Modo reduzido";
+          scaleNote.textContent = modeName + " · " + percent + "%";
+        }
+      }
+
+      function syncActiveLinks() {
+        const id = pages[activeIndex].id;
+        sidebarLinks.forEach((link) => {
+          link.classList.toggle("active", link.getAttribute("href") === "#" + id);
+        });
+      }
+
+      function updateStatus() {
+        status.textContent = "Tópico " + (activeIndex + 1) + " de " + pages.length;
+        prevBtn.disabled = activeIndex === 0;
+        nextBtn.disabled = activeIndex === pages.length - 1;
+      }
+
+      function showPage(index, updateHash) {
+        activeIndex = Math.max(0, Math.min(pages.length - 1, index));
+
+        pages.forEach((page, i) => {
+          page.classList.toggle("active", i === activeIndex);
+          page.setAttribute("aria-hidden", i === activeIndex ? "false" : "true");
+        });
+
+        updateStatus();
+        syncActiveLinks();
+        fitActivePage();
+
+        if (updateHash) {
+          history.replaceState(null, "", "#" + pages[activeIndex].id);
+        }
+      }
+
+      function handleLinkClick(event) {
+        const href = event.currentTarget.getAttribute("href") || "";
+        if (!href.startsWith("#")) {
+          return;
+        }
+        const id = href.slice(1);
+        const idx = pages.findIndex((page) => page.id === id);
+        if (idx < 0) {
+          return;
+        }
+
+        if (isDesktopViewer()) {
+          event.preventDefault();
+          showPage(idx, true);
+        }
+      }
+
+      sidebarLinks.forEach((link) => link.addEventListener("click", handleLinkClick));
+      topLinks.forEach((link) => link.addEventListener("click", handleLinkClick));
+
+      prevBtn.addEventListener("click", () => showPage(activeIndex - 1, true));
+      nextBtn.addEventListener("click", () => showPage(activeIndex + 1, true));
+
+      if (scalePreference) {
+        scalePreference.addEventListener("change", () => {
+          showPage(activeIndex, false);
+        });
+      }
+
+      document.addEventListener("keydown", (event) => {
+        if (!isDesktopViewer()) {
+          return;
+        }
+        if (event.key === "ArrowRight") {
+          showPage(activeIndex + 1, true);
+        }
+        if (event.key === "ArrowLeft") {
+          showPage(activeIndex - 1, true);
+        }
+      });
+
+      window.addEventListener("resize", () => {
+        if (!isDesktopViewer()) {
+          stage.classList.remove("is-scaled");
+          stage.classList.remove("mode-reading", "mode-fit");
+          pages.forEach((page) => {
+            const content = page.querySelector(":scope > .page-content");
+            if (content) {
+              content.style.transform = "none";
+              content.style.width = "auto";
+              content.classList.remove("tight-mode");
+            }
+            page.classList.add("active");
+            page.setAttribute("aria-hidden", "false");
+          });
+          return;
+        }
+
+        showPage(activeIndex, false);
+      });
+
+      prepareContentWrappers();
+      const initial = indexFromHash();
+      if (isDesktopViewer()) {
+        showPage(initial, false);
+      } else {
+        activeIndex = initial;
+        updateStatus();
+        syncActiveLinks();
+      }
+    })();
+  </script>
+
+</body>
+</html>
